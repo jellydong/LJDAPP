@@ -1,0 +1,259 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayUILayout.cshtml";
+}
+
+<link rel="stylesheet" href="@Url.Content("~/lib/layui/style/template.css")">
+<style>
+    /* 这段样式只是用于演示 */
+    #LAY-component-grid-list .demo-list .layui-card {
+        height: 267px;
+    }
+</style>
+
+
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="layui-form-item">
+                <div class="layui-inline ">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="uloginName" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">真实姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="urealName" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">性别</label>
+                    <div class="layui-input-inline">
+                        <select name="ugender">
+                            <option value="">请选择</option>
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="layui-card"> 
+        <div class="layui-collapse" lay-filter="component-panel">
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">常用流程</h2>
+                <div class="layui-colla-content layui-show">
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space12">
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>出差申请</a></div>
+                                    <p class="layui-text-center">所有员工出差申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">日常业务</h2>
+                <div class="layui-colla-content ">
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space12">
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">费用相关</h2>
+                <div class="layui-colla-content ">
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space12">
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12 layui-col-sm2">
+                                <div class="layuiadmin-card-text">
+                                    <div class="layui-text-top"><i class="layui-icon layui-icon-app" style="font-size: 30px; color: #1E9FFF;"></i> <a>请假申请</a></div>
+                                    <p class="layui-text-center">所有员工请假申请使用该流程</p>
+                                    <p class="layui-text-bottom"><a>系统管理员</a><span>2019年5月24日</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        layui.use(['element', 'form'],
+            function () {
+                var element = layui.element;
+
+            });
+    </script>
+}
+
+
+

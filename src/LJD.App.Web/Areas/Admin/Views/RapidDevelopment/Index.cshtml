@@ -1,0 +1,223 @@
+﻿
+@{
+    ViewData["Title"] = "快速开发";
+    Layout = "~/Views/Shared/_LayUILayout.cshtml";
+}
+
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn  layuiadmin-btn-list " lay-submit lay-filter="LAY-app-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <label class="layui-form-label">生成代码：</label>
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-radius layuiadmin-btn-list" data-type="createIRepository">IRepository代码</button>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-radius layuiadmin-btn-list" data-type="createRepository">Repository代码</button>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-radius layuiadmin-btn-list" data-type="createIService">IService代码</button>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-radius layuiadmin-btn-list" data-type="createService">Service代码</button>
+                </div>
+            </div>
+            <table id="LAY-app-list" lay-filter="LAY-app-list"></table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        layui.use(['form', 'table'],
+            function () {
+                var table = layui.table
+                    , form = layui.form;
+                //Table定义
+                table.render({
+                    elem: '#LAY-app-list'
+                    , url: '@Url.Action("List","RapidDevelopment")'  
+                    ,request: {
+                        pageName: 'pageIndex' //页码的参数名称，默认：page
+                        ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                    }
+                    , cols: [[
+                        { type: 'radio'}
+                        , { field: 'TableName', title: '表名',width:300  }
+                        , { field: 'Description', title: '描述' ,minWidth:300 }
+                    ]]
+                    , page: true
+                    , limit: 10
+                    , limits: [10, 15, 20, 25, 30]
+                });
+
+                //监听工具条
+                table.on('tool(LAY-app-list)',
+                    function(obj) {
+                        var data = obj.data;
+                        if ("del" === obj.event) {
+                            layer.confirm("确定删除此条评论？",
+                                function(t) {
+                                    //ajax删除
+                                    //$.ajax({
+                                    //    url: ''
+                                    //    , type: 'POST'
+                                    //    , data: { "id": data.Id}
+                                    //    ,dataType: 'json'
+                                    //    , success: function (data) {
+                                    //        debugger
+                                    //        if (data.Success) {
+                                    //            obj.del();
+                                    //        } else {
+                                    //            layer.msg(data.msg);
+                                    //        }
+                                    //    }
+                                    //});
+                                    //表格删除
+                                    obj.del();
+                                    //关闭弹窗
+                                    layer.close(t);
+                                });
+                        } else if ("edit" === obj.event) {
+                            layer.msg("编辑");
+                        }
+
+                    });
+
+
+                //监听搜索
+                form.on('submit(LAY-app-search)', function (data) {
+                    var field = data.field;
+
+                    //执行重载
+                    table.reload('LAY-app-list', {
+                        where: field
+                    });
+                });
+
+                var $ = layui.$, active = {
+                    batchdel: function () {
+                        var checkStatus = table.checkStatus('LAY-app-list')
+                            , checkData = checkStatus.data; //得到选中的数据
+
+                        if (checkData.length === 0) {
+                            return layer.msg('请选择数据');
+                        }
+
+                        layer.confirm('确定删除吗？', function (index) {
+
+                            //执行 Ajax 后重载
+                            /*
+                            admin.req({
+                              url: 'xxx'
+                              //,……
+                            });
+                            */
+                            table.reload('LAY-app-list');
+                            layer.msg('已删除');
+                        });
+                    },
+                    createIRepository: function () {
+                        var checkStatus = table.checkStatus('LAY-app-list'); //idTest 即为基础参数 id 对应的值
+                        if (checkStatus.data.length !== 1) {
+                            return layer.msg('请选择需要生成的表！', {icon: 5});
+                        }
+                        var data = checkStatus.data[0];
+                        debugger
+                        layer.open({
+                            type: 2
+                            , title: '生成IRepository'
+                            , content: '@Url.Action("BuildCode","RapidDevelopment")?tableName=' + data.tableName+'&buildType=IRepository'
+                            , maxmin: false
+                            , area: ['100%', '100%']
+                            , btn: ['确定']
+                            , yes: function (index, layero) {
+                                layer.close(index); //关闭弹层
+                            }
+                        });
+                    },
+                    createRepository: function () {
+                        var checkStatus = table.checkStatus('LAY-app-list'); //idTest 即为基础参数 id 对应的值
+                        if (checkStatus.data.length !== 1) {
+                            return layer.msg('请选择需要生成的表！', {icon: 5});
+                        }
+                        var data = checkStatus.data[0];
+                        debugger
+                        layer.open({
+                            type: 2
+                            , title: '生成Repository'
+                            , content: '@Url.Action("BuildCode","RapidDevelopment")?tableName=' + data.tableName+'&buildType=Repository'
+                            , maxmin: false
+                            , area: ['100%', '100%']
+                            , btn: ['确定']
+                            , yes: function (index, layero) {
+                                layer.close(index); //关闭弹层
+                            }
+                        });
+                    },
+                    createIService: function () {
+                        var checkStatus = table.checkStatus('LAY-app-list'); //idTest 即为基础参数 id 对应的值
+                        if (checkStatus.data.length !== 1) {
+                            return layer.msg('请选择需要生成的表！', {icon: 5});
+                        }
+                        var data = checkStatus.data[0];
+                        debugger
+                        layer.open({
+                            type: 2
+                            , title: '生成IService'
+                            , content: '@Url.Action("BuildCode","RapidDevelopment")?tableName=' + data.tableName+'&buildType=IService'
+                            , maxmin: false
+                            , area: ['100%', '100%']
+                            , btn: ['确定']
+                            , yes: function (index, layero) {
+                                layer.close(index); //关闭弹层
+                            }
+                        });
+                    },
+                    createService: function () {
+                        var checkStatus = table.checkStatus('LAY-app-list'); //idTest 即为基础参数 id 对应的值
+                        if (checkStatus.data.length !== 1) {
+                            return layer.msg('请选择需要生成的表！', {icon: 5});
+                        }
+                        var data = checkStatus.data[0];
+                        debugger
+                        layer.open({
+                            type: 2
+                            , title: '生成Service'
+                            , content: '@Url.Action("BuildCode","RapidDevelopment")?tableName=' + data.tableName+'&buildType=Service'
+                            , maxmin: false
+                            , area: ['100%', '100%']
+                            , btn: ['确定']
+                            , yes: function (index, layero) {
+                                layer.close(index); //关闭弹层
+                            }
+                        });
+                    },
+                };
+
+                $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+            });
+
+    </script>
+}

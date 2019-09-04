@@ -1,0 +1,61 @@
+﻿@using LJD.App.Model.DbModels
+@using LJD.App.Util
+
+@model List<SysMenus>
+@{
+    List<string> permissionList = (List<string>)ViewData["permissionList"];
+    int on = (int) Status.On;
+}
+
+@foreach (SysMenus menu in Model.Where(m => m.ParentID.Equals(ViewData["ParentID"].ToString())&&m.Status.Equals(on)).OrderBy(m => m.Sort))
+{
+
+    if (menu.IsLast.Equals(on))
+    {
+<div class="layui-form-item">
+    <label class="layui-form-label">@menu.MName：</label>
+    <div class="layui-input-block">
+        @foreach (SysFunction sysFunction in menu.SysFunction.OrderBy(f => f.Sort))
+                {
+                    if (sysFunction.Status.Equals(on))
+                    {
+        <input type="checkbox" isLast="true" value="@menu.ObjectID=@sysFunction.ObjectID" name="@sysFunction.FFunction" title="@sysFunction.FName" parentId="@menu.ParentID" lay-skin="primary" @(permissionList.Contains(sysFunction.ObjectID) ? "checked" : "")>
+                    }
+                    else
+                    {
+        <button class="layui-btn layui-btn-xs layui-btn-disabled">@sysFunction.FName</button>
+
+                    }
+                }
+    </div>
+</div>
+    }
+    else
+    {
+<div class="layui-card-body">
+    <fieldset class="layui-elem-field">
+        <legend>
+            <input type="checkbox" isLast="false" id="@menu.ObjectID" parentId="@menu.ParentID" value="@menu.ObjectID=@menu.ObjectID" title="@menu.MName" @(permissionList.Contains(menu.ObjectID) ? "checked" : "")>
+            @foreach (SysFunction sysFunction in menu.SysFunction.OrderBy(f => f.Sort))
+                    {
+                        if (sysFunction.Status.Equals(on))
+                        {
+            <input type="checkbox" isLast="true" value="@menu.ObjectID=@sysFunction.ObjectID"   title="@sysFunction.FName"  lay-skin="primary" @(permissionList.Contains(sysFunction.ObjectID) ? "checked" : "")>
+                        }
+                        else
+                        {
+            <button class="layui-btn layui-btn-xs layui-btn-disabled">@sysFunction.FName</button>
+
+                        }
+                    }
+
+        </legend>
+        <div class="layui-field-box">
+
+            @{ViewData["ParentID"] = menu.ObjectID;}
+            @Html.Partial("BuildPermissionMenu", Model, ViewData)
+        </div>
+    </fieldset>
+</div>
+    }
+}

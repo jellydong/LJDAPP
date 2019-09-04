@@ -1,0 +1,253 @@
+﻿@using LJD.App.Model.DbModels
+@using LJD.App.Util
+
+@model List<SysMenus>
+@{
+    List<string> permissionList = (List<string>)ViewData["permissionList"];
+}
+@{
+    ViewData["Title"] = "SetPermission";
+    Layout = "~/Views/Shared/_LayUIFormLayout.cshtml";
+    ViewData["ParentID"] = "0";
+}
+
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+    @Html.Partial("BuildPermissionMenu", Model, ViewData)
+
+    @*<div class="layui-card-body">
+            <fieldset class="layui-elem-field">
+                <legend>
+                    <input type="checkbox" name="interest[write]" title="写作">
+                </legend>
+                <div class="layui-field-box">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">兴趣爱好：</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="" title="写作" lay-skin="primary" checked>
+                            <input type="checkbox" name="" title="发呆" lay-skin="primary">
+                            <input type="checkbox" name="" title="禁用" lay-skin="primary" disabled>
+                        </div>
+                    </div>
+                    <fieldset class="layui-elem-field">
+                        <legend>
+                            <input type="checkbox" name="interest[write]" title="写作">
+                        </legend>
+                        <div class="layui-field-box">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">兴趣爱好：</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" name="" title="写作" lay-skin="primary" checked>
+                                    <input type="checkbox" name="" title="发呆" lay-skin="primary">
+                                    <input type="checkbox" name="" title="禁用" lay-skin="primary" disabled>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">兴趣爱好：</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" name="" title="写作" lay-skin="primary" checked>
+                                    <input type="checkbox" name="" title="发呆" lay-skin="primary">
+                                    <input type="checkbox" name="" title="禁用" lay-skin="primary" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </fieldset>
+        </div>
+        <div class="layui-card-body">
+            <fieldset class="layui-elem-field">
+                <legend>
+                    <input type="checkbox" name="interest[write]" title="写作">
+                </legend>
+                <div class="layui-field-box">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">兴趣爱好：</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="" title="写作" lay-skin="primary" checked>
+                            <input type="checkbox" name="" title="发呆" lay-skin="primary">
+                            <input type="checkbox" name="" title="禁用" lay-skin="primary" disabled>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">兴趣爱好：</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="" title="写作" lay-skin="primary" checked>
+                            <input type="checkbox" name="" title="发呆" lay-skin="primary">
+                            <input type="checkbox" name="" title="禁用" lay-skin="primary" disabled>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>*@
+    @*@foreach (SysMenus psysMenu in Model.Where(m => m.ParentID.Equals("0")))
+        {
+            <div class="layui-card-body">
+                <fieldset class="layui-elem-field">
+                    <legend>@psysMenu.MName</legend>
+                    <div class="layui-field-box">
+                        @foreach (SysMenus sysMenu in Model.Where(m => m.ParentID.Equals(psysMenu.ObjectID)))
+                        {
+                            if (sysMenu.IsLast.Equals((int)Status.On))
+                            {
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">@sysMenu.MName</label>
+                                    <div class="layui-input-block">
+                                        @foreach (SysFunction sysFunction in sysMenu.SysFunction.OrderBy(f => f.Sort))
+                                        {
+                                            <input type="checkbox" value="@sysMenu.ObjectID=@sysFunction.ObjectID" name="@sysFunction.FFunction" title="@sysFunction.FName" @(permissionList.Contains(sysFunction.ObjectID) ? "checked" : "") @(sysFunction.Status.Equals((int)Status.Off)? "disabled" : "")>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <fieldset class="layui-elem-field">
+                                    <legend>@sysMenu.MName</legend>
+                                    <div class="layui-field-box">
+                                        @foreach (SysMenus csysMenu in Model.Where(m => m.ParentID.Equals(sysMenu.ObjectID)))
+                                        {
+                                            if (csysMenu.IsLast.Equals((int)Status.On))
+                                            {
+                                                <div class="layui-form-item">
+                                                    <label class="layui-form-label">@csysMenu.MName</label>
+                                                    <div class="layui-input-block">
+                                                        @foreach (SysFunction sysFunction in csysMenu.SysFunction.OrderBy(f => f.Sort))
+                                                        {
+                                                            <input type="checkbox" value="@csysMenu.ObjectID=@sysFunction.ObjectID" name="@sysFunction.FFunction" title="@sysFunction.FName" @(permissionList.Contains(sysFunction.ObjectID) ? "checked" : "") @(sysFunction.Status.Equals((int)Status.Off)? "disabled" : "")>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <blockquote class="layui-elem-quote">菜单最多配置三级,超出显示范围，请重新配置!</blockquote>
+                                            }
+                                        }
+                                    </div>
+                                </fieldset>
+                            }
+                        }
+                    </div>
+                </fieldset>
+            </div>
+        }*@
+
+</div>
+<div class="layui-form-item layui-hide">
+    <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
+    <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
+</div>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        layui.use(['form'],
+            function() {
+                var $ = layui.$, form = layui.form;
+                //监听提交
+                form.on('submit(layuiadmin-app-form-submit)',
+                    //注意：这里只是添加的用，编辑的在index页面
+                    function(data) {
+                        //获取选中的权限项
+                        var permissions = [];
+                        $('input:checked').each(function(index, item) {
+                            permissions.push($(item).attr('value'));
+                        });
+                        debugger
+
+                        //layer.alert(JSON.stringify(permissions));
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        debugger;
+                        //提交 Ajax 成功后，关闭当前弹层并重载表格
+                        $.ajax({
+                            url: '@Url.Action("SetPermission", "Role")',
+                            type: 'POST',
+                            data: {
+                                roleObjectId: '@ViewData["roleObjectId"].ToString()',
+                                permissions: JSON.stringify(permissions),
+                                tag:"tag"
+                            },
+                            dataType: 'json',
+                            success: function(data) {
+                                debugger;
+                                if (data.Success) {
+                                    parent.layui.table.reload('LAY-app-list'); //重载表格
+                                    parent.layer.close(index); //再执行关闭
+                                } else {
+                                    layer.msg(data.Message, { icon: 5 });
+                                }
+                            }
+                        }); 
+                    }); 
+
+
+                //权限项点击事件
+                $('.layui-form-checkbox').on('click',
+                    function(e) {
+                        debugger 
+                        //获取当前点击input的id
+                        var id = this.previousElementSibling.id;
+                        //如果是点击的方法按钮的input
+                        if (this.previousElementSibling.getAttribute("isLast") === "true") {
+                            //如果是选中的话，判断是不是Index 查询权限，不是的话，要先选中查询权限
+                            if (this.classList.contains("layui-form-checked")) {
+                                //如果不是Index 并且Index 也没选中
+                                if (this.previousElementSibling.name !== "Query" &&
+                                    !$(this).parent().find('input[name="Index"]').next()[0].classList.contains(
+                                        "layui-form-checked")) {
+                                    //让Index节点的那个点击选中
+                                    $(this).parent().find('input[name="Index"]').next().click();
+                                }
+                                var parentId = this.previousElementSibling.getAttribute("parentid");
+                                if (parentId!=="0"&&!$("#" + parentId).next()[0].classList.contains("layui-form-checked")) {
+                                    $("#" + parentId).next()[0].click();
+                                }
+                            } else {
+                                //不是选中状态，判断是不是Index 如果是Index 取消选中，那么后边的也应该取消选中
+                                if (this.previousElementSibling.name === "Index") {
+                                    $(this).parent().find('input[name!="Index"]').next().each(function(index, item) {
+                                        if (item.classList.contains("layui-form-checked")) {
+                                            $(item).click();
+                                        }
+                                    });
+                                }
+                            }
+
+                        } else {
+                            //否则的话就是点击的菜单的input
+                            //找出他下面的所有子菜单
+                            var children = $('input[parentId="' + id + '"]').next();
+                            //判断当前是选中还是取消选中
+                            //如果是选中的话，需要把子节点没选中的点击一下，选中
+                            if (this.classList.contains("layui-form-checked")) { 
+                                //todo:选中先不处理全部选中子节点，
+                                //children.each(function(index, item) {
+                                //    if (!item.classList.contains("layui-form-checked")) {
+                                //        $(item).click();
+                                //    }
+                                //}); 
+
+                                //让父节点选中
+                                debugger
+                                var parentId = this.previousElementSibling.getAttribute("parentid");
+                                if (parentId!=="0"&&!$("#" + parentId).next()[0].classList.contains("layui-form-checked")) {
+                                    $("#" + parentId).next()[0].click();
+                                }
+
+
+                            } else {
+                                //取消选中：把所有已经选中的点击一下，取消选中
+                                children.each(function(index, item) {
+                                    if (item.classList.contains("layui-form-checked")) {
+                                        $(item).click();
+                                    }
+                                });
+                            }
+                        }  
+
+                    });
+            });
+    </script>
+}

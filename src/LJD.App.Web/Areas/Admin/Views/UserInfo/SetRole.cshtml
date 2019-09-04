@@ -1,0 +1,61 @@
+﻿@using LJD.App.Model.DbModels
+@using LJD.App.Util
+@model List<LJD.App.Model.DbModels.SysRole>
+@{
+    List<string> roleList = (List<string>)ViewData["roleList"];
+}
+
+@{
+    ViewData["Title"] = "SetRole";
+    Layout = "~/Views/Shared/_LayUIFormLayout.cshtml";
+}
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px">
+    @{
+        foreach (SysRole sysRole in Model)
+        {
+        <input type="checkbox" value="@sysRole.ObjectID" title="@sysRole.RName" @(roleList.Contains(sysRole.ObjectID) ? "checked" : "")  @(sysRole.Status.Equals((int)Status.Off)?"disabled":"")>
+        }
+    }
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
+    </div>
+</div>
+
+@section scripts
+    {
+    <script type="text/javascript">
+        layui.use(['form'],
+            function () {
+                var $ = layui.$, form = layui.form;
+                form.on('submit(layuiadmin-app-form-submit)',
+                    function(data) {
+                        //获取选中的权限项
+                        var roles = [];
+                        $('input:checked').each(function (index, item) {
+                            roles.push($(item).attr('value'));
+                        });
+
+                        //layer.alert(JSON.stringify(roles));
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        debugger;
+                        //提交 Ajax 成功后，关闭当前弹层并重载表格
+                        $.ajax({
+                            url: '@Url.Action("SetRole", "UserInfo")',
+                            type: 'POST',
+                            data: {userId:'@ViewData["userId"].ToString()',roles:JSON.stringify(roles)},
+                            dataType: 'json',
+                            success: function (data) {
+                                debugger;
+                                if (data.Success) {
+                                    parent.layui.table.reload('LAY-app-list'); //重载表格
+                                    parent.layer.close(index); //再执行关闭
+                                } else {
+                                    layer.msg(data.Message, {icon: 5});
+                                }
+                            }
+                        });
+                    });
+            });
+    </script>
+}

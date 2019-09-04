@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LJD.App.Model\LJD.App.Model.csproj" />
+    <ProjectReference Include="..\LJD.App.Repository\LJD.App.Repository.csproj" />
+    <ProjectReference Include="..\LJD.App.Util\LJD.App.Util.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="IService\AIService.cs">
+      <DependentUpon>AIService.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Service\AService.cs">
+      <DependentUpon>AService.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="IService\AIService.tt">
+      <LastGenOutput>AIService.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Service\AService.tt">
+      <LastGenOutput>AService.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>

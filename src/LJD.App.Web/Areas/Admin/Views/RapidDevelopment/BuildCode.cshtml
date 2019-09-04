@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "BuildCode";
+    Layout = "~/Views/Shared/_LayUIFormLayout.cshtml";
+}
+
+
+<div class="layui-form" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">文件名</label>
+        <div class="layui-input-block">
+            <input type="text" name="fileName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="@ViewData["fileName"]">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">代码</label>
+        <div class="layui-input-block">
+            <textarea placeholder="代码" class="layui-textarea" style="min-height: 500px">@ViewData["Code"]</textarea>
+        </div>
+    </div>
+</div>
+

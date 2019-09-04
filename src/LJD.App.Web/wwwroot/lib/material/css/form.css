@@ -1,0 +1,370 @@
+.form-material {
+  position: relative;
+}
+.form-material.floating {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.form-material.floating + .form-material.floating {
+  margin-top: 40px;
+}
+.form-material .form-control {
+  padding: 0;
+  -webkit-background-size: 0 2px, 100% 1px;
+          background-size: 0 2px, 100% 1px;
+  background-repeat: no-repeat;
+  background-position: center bottom, center -webkit-calc(100% - 1px);
+  background-position: center bottom, center calc(100% - 1px);
+  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0);
+  -webkit-transition: background 0s ease-out;
+       -o-transition: background 0s ease-out;
+          transition: background 0s ease-out;
+}
+.form-material .form-control,
+.form-material .form-control:focus,
+.form-material .form-control.focus {
+  float: none;
+  border: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border-radius: 0;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#62a8ea), to(#62a8ea)), -webkit-gradient(linear, left top, left bottom, from(#e4eaec), to(#e4eaec));
+  background-image: -webkit-linear-gradient(#62a8ea, #62a8ea), -webkit-linear-gradient(#e4eaec, #e4eaec);
+  background-image: -o-linear-gradient(#62a8ea, #62a8ea), -o-linear-gradient(#e4eaec, #e4eaec);
+  background-image: linear-gradient(#62a8ea, #62a8ea), linear-gradient(#e4eaec, #e4eaec);
+}
+.no-cssgradients .form-material .form-control {
+  border-bottom: 2px solid #e4eaec;
+}
+.form-material .form-control::-webkit-input-placeholder {
+  color: #a3afb7;
+}
+.form-material .form-control::-moz-placeholder {
+  color: #a3afb7;
+}
+.form-material .form-control:-ms-input-placeholder {
+  color: #a3afb7;
+}
+.form-material .form-control:disabled::-webkit-input-placeholder {
+  color: #ccd5db;
+}
+.form-material .form-control:disabled::-moz-placeholder {
+  color: #ccd5db;
+}
+.form-material .form-control:disabled:-ms-input-placeholder {
+  color: #ccd5db;
+}
+.form-material .form-control:focus,
+.form-material .form-control.focus {
+  outline: none;
+  -webkit-background-size: 100% 2px, 100% 1px;
+          background-size: 100% 2px, 100% 1px;
+  -webkit-transition-duration: 0.3s;
+       -o-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+}
+.no-cssgradients .form-material .form-control:focus,
+.no-cssgradients .form-material .form-control.focus {
+  background: transparent;
+  border-bottom: 2px solid #62a8ea;
+}
+.form-material .form-control:disabled,
+.form-material .form-control[disabled],
+fieldset[disabled] .form-material .form-control {
+  background: transparent;
+  background: rgba(0, 0, 0, 0);
+  border-bottom: 1px dashed #ccd5db;
+}
+.form-material .form-control:disabled ~ .floating-label,
+.form-material .form-control[disabled] ~ .floating-label,
+fieldset[disabled] .form-material .form-control ~ .floating-label {
+  color: #ccd5db;
+}
+.form-material .control-label {
+  font-weight: 500;
+  margin-bottom: 0;
+}
+.form-material .floating-label {
+  font-size: 14px;
+  color: #76838f;
+  position: absolute;
+  pointer-events: none;
+  left: 0px;
+  -webkit-transition: 0.3s ease all;
+       -o-transition: 0.3s ease all;
+          transition: 0.3s ease all;
+}
+.form-material .floating-label.floating-label-static {
+  position: relative;
+  top: auto;
+  display: block;
+}
+.form-material [class*="col-"] > .floating-label {
+  left: 15px;
+}
+.form-material .form-control ~ .floating-label {
+  font-size: 14px;
+  top: 7.99999998px;
+}
+.form-material .form-control:focus ~ .floating-label,
+.form-material .form-control.focus ~ .floating-label,
+.form-material .form-control:not(.empty) ~ .floating-label {
+  top: -11.2px;
+  font-size: 11.2px;
+}
+.form-material .form-control:-webkit-autofill ~ .floating-label {
+  top: -11.2px;
+  font-size: 11.2px;
+}
+.form-material .form-control.input-sm ~ .floating-label {
+  font-size: 12px;
+  top: 6px;
+}
+.form-material .form-control.input-sm:focus ~ .floating-label,
+.form-material .form-control.input-sm.focus ~ .floating-label,
+.form-material .form-control.input-sm:not(.empty) ~ .floating-label {
+  top: -9.6px;
+  font-size: 9.6px;
+}
+.form-material .form-control.input-sm:-webkit-autofill ~ .floating-label {
+  top: -9.6px;
+  font-size: 9.6px;
+}
+.form-material .form-control.input-lg ~ .floating-label {
+  font-size: 18px;
+  top: 5.9999994px;
+}
+.form-material .form-control.input-lg:focus ~ .floating-label,
+.form-material .form-control.input-lg.focus ~ .floating-label,
+.form-material .form-control.input-lg:not(.empty) ~ .floating-label {
+  top: -14.4px;
+  font-size: 14.4px;
+}
+.form-material .form-control.input-lg:-webkit-autofill ~ .floating-label {
+  top: -14.4px;
+  font-size: 14.4px;
+}
+.form-material .form-control:focus ~ .floating-label,
+.form-material .form-control.focus ~ .floating-label,
+.form-material .form-control:not(.empty) ~ .floating-label {
+  font-weight: 500;
+}
+.form-material .form-control:-webkit-autofill ~ .floating-label {
+  font-weight: 500;
+}
+.form-material .form-control:focus ~ .floating-label,
+.form-material .form-control.focus ~ .floating-label {
+  color: #62a8ea;
+}
+.form-material textarea.form-control {
+  resize: none;
+  padding-bottom: 6px;
+}
+.form-material.floating textarea.form-control {
+  padding-top: 6px;
+}
+.form-material select.form-control {
+  border: 0;
+  border-radius: 0;
+}
+.form-material:not(.floating) .control-label + select[multiple] {
+  margin-top: 5px;
+}
+.form-material .hint {
+  position: absolute;
+  font-size: 80%;
+  display: none;
+}
+.form-material .form-control:focus ~ .hint,
+.form-material .form-control.focus ~ .hint {
+  display: block;
+}
+.form-material .form-control:not(.empty):invalid ~ .floating-label,
+.form-material .form-control.focus:invalid ~ .floating-label {
+  color: #f96868;
+}
+.form-material .form-control:invalid {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f96868), to(#f96868)), -webkit-gradient(linear, left top, left bottom, from(#e4eaec), to(#e4eaec));
+  background-image: -webkit-linear-gradient(#f96868, #f96868), -webkit-linear-gradient(#e4eaec, #e4eaec);
+  background-image: -o-linear-gradient(#f96868, #f96868), -o-linear-gradient(#e4eaec, #e4eaec);
+  background-image: linear-gradient(#f96868, #f96868), linear-gradient(#e4eaec, #e4eaec);
+}
+.form-material.form-group.has-warning .form-control:focus,
+.form-material.form-group.has-warning .form-control.focus,
+.form-material.form-group.has-warning .form-control:not(.empty) {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f2a654), to(#f2a654)), -webkit-gradient(linear, left top, left bottom, from(#e4eaec), to(#e4eaec));
+  background-image: -webkit-linear-gradient(#f2a654, #f2a654), -webkit-linear-gradient(#e4eaec, #e4eaec);
+  background-image: -o-linear-gradient(#f2a654, #f2a654), -o-linear-gradient(#e4eaec, #e4eaec);
+  background-image: linear-gradient(#f2a654, #f2a654), linear-gradient(#e4eaec, #e4eaec);
+}
+.no-cssgradients .form-material.form-group.has-warning .form-control:focus,
+.no-cssgradients .form-material.form-group.has-warning .form-control.focus,
+.no-cssgradients .form-material.form-group.has-warning .form-control:not(.empty) {
+  background: transparent;
+  border-bottom: 2px solid #f2a654;
+}
+.form-material.form-group.has-warning .form-control:-webkit-autofill {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f2a654), to(#f2a654)), -webkit-gradient(linear, left top, left bottom, from(#e4eaec), to(#e4eaec));
+  background-image: -webkit-linear-gradient(#f2a654, #f2a654), -webkit-linear-gradient(#e4eaec, #e4eaec);
+  background-image: linear-gradient(#f2a654, #f2a654), linear-gradient(#e4eaec, #e4eaec);
+}
+.no-cssgradients .form-material.form-group.has-warning .form-control:-webkit-autofill {
+  background: transparent;
+  border-bottom: 2px solid #f2a654;
+}
+.form-material.form-group.has-warning .form-control:not(.empty) {
+  -webkit-background-size: 100% 2px, 100% 1px;
+          background-size: 100% 2px, 100% 1px;
+}
+.form-material.form-group.has-warning .control-label {
+  color: #f2a654;
+}
+.form-material.form-group.has-warning .form-control:focus ~ .floating-label,
+.form-material.form-group.has-warning .form-control.focus ~ .floating-label,
+.form-material.form-group.has-warning .form-control:not(.empty) ~ .floating-label {
+  color: #f2a654;
+}
+.form-material.form-group.has-warning .form-control:-webkit-autofill ~ .floating-label {
+  color: #f2a654;
+}
+.form-material.form-group.has-error .form-control:focus,
+.form-material.form-group.has-error .form-control.focus,
+.form-material.form-group.has-error .form-control:not(.empty) {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f96868), to(#f96868)), -webkit-gradient(linear, left top, left bottom, from(#e4eaec), to(#e4eaec));
+  background-image: -webkit-linear-gradient(#f96868, #f96868), -webkit-linear-gradient(#e4eaec, #e4eaec);
+  background-image: -o-linear-gradient(#f96868, #f96868), -o-linear-gradient(#e4eaec, #e4eaec);
+  background-image: linear-gradient(#f96868, #f96868), linear-gradient(#e4eaec, #e4eaec);
+}
+.no-cssgradients .form-material.form-group.has-error .form-control:focus,
+.no-cssgradients .form-material.form-group.has-error .form-control.focus,
+.no-cssgradients .form-material.form-group.has-error .form-control:not(.empty) {
+  background: transparent;
+  border-bottom: 2px solid #f96868;
+}
+.form-material.form-group.has-error .form-control:-webkit-autofill {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f96868), to(#f96868)), -webkit-gradient(linear, left top, left bottom, from(#e4eaec), to(#e4eaec));
+  background-image: -webkit-linear-gradient(#f96868, #f96868), -webkit-linear-gradient(#e4eaec, #e4eaec);
+  background-image: linear-gradient(#f96868, #f96868), linear-gradient(#e4eaec, #e4eaec);
+}
+.no-cssgradients .form-material.form-group.has-error .form-control:-webkit-autofill {
+  background: transparent;
+  border-bottom: 2px solid #f96868;
+}
+.form-material.form-group.has-error .form-control:not(.empty) {
+  -webkit-background-size: 100% 2px, 100% 1px;
+          background-size: 100% 2px, 100% 1px;
+}
+.form-material.form-group.has-error .control-label {
+  color: #f96868;
+}
+.form-material.form-group.has-error .form-control:focus ~ .floating-label,
+.form-material.form-group.has-error .form-control.focus ~ .floating-label,
+.form-material.form-group.has-error .form-control:not(.empty) ~ .floating-label {
+  color: #f96868;
+}
+.form-material.form-group.has-error .form-control:-webkit-autofill ~ .floating-label {
+  color: #f96868;
+}
+.form-material.form-group.has-success .form-control:focus,
+.form-material.form-group.has-success .form-control.focus,
+.form-material.form-group.has-success .form-control:not(.empty) {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#46be8a), to(#46be8a)), -webkit-gradient(linear, left top, left bottom, from(#e4eaec), to(#e4eaec));
+  background-image: -webkit-linear-gradient(#46be8a, #46be8a), -webkit-linear-gradient(#e4eaec, #e4eaec);
+  background-image: -o-linear-gradient(#46be8a, #46be8a), -o-linear-gradient(#e4eaec, #e4eaec);
+  background-image: linear-gradient(#46be8a, #46be8a), linear-gradient(#e4eaec, #e4eaec);
+}
+.no-cssgradients .form-material.form-group.has-success .form-control:focus,
+.no-cssgradients .form-material.form-group.has-success .form-control.focus,
+.no-cssgradients .form-material.form-group.has-success .form-control:not(.empty) {
+  background: transparent;
+  border-bottom: 2px solid #46be8a;
+}
+.form-material.form-group.has-success .form-control:-webkit-autofill {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#46be8a), to(#46be8a)), -webkit-gradient(linear, left top, left bottom, from(#e4eaec), to(#e4eaec));
+  background-image: -webkit-linear-gradient(#46be8a, #46be8a), -webkit-linear-gradient(#e4eaec, #e4eaec);
+  background-image: linear-gradient(#46be8a, #46be8a), linear-gradient(#e4eaec, #e4eaec);
+}
+.no-cssgradients .form-material.form-group.has-success .form-control:-webkit-autofill {
+  background: transparent;
+  border-bottom: 2px solid #46be8a;
+}
+.form-material.form-group.has-success .form-control:not(.empty) {
+  -webkit-background-size: 100% 2px, 100% 1px;
+          background-size: 100% 2px, 100% 1px;
+}
+.form-material.form-group.has-success .control-label {
+  color: #46be8a;
+}
+.form-material.form-group.has-success .form-control:focus ~ .floating-label,
+.form-material.form-group.has-success .form-control.focus ~ .floating-label,
+.form-material.form-group.has-success .form-control:not(.empty) ~ .floating-label {
+  color: #46be8a;
+}
+.form-material.form-group.has-success .form-control:-webkit-autofill ~ .floating-label {
+  color: #46be8a;
+}
+.form-material.form-group.has-info .form-control:focus,
+.form-material.form-group.has-info .form-control.focus,
+.form-material.form-group.has-info .form-control:not(.empty) {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#57c7d4), to(#57c7d4)), -webkit-gradient(linear, left top, left bottom, from(#e4eaec), to(#e4eaec));
+  background-image: -webkit-linear-gradient(#57c7d4, #57c7d4), -webkit-linear-gradient(#e4eaec, #e4eaec);
+  background-image: -o-linear-gradient(#57c7d4, #57c7d4), -o-linear-gradient(#e4eaec, #e4eaec);
+  background-image: linear-gradient(#57c7d4, #57c7d4), linear-gradient(#e4eaec, #e4eaec);
+}
+.no-cssgradients .form-material.form-group.has-info .form-control:focus,
+.no-cssgradients .form-material.form-group.has-info .form-control.focus,
+.no-cssgradients .form-material.form-group.has-info .form-control:not(.empty) {
+  background: transparent;
+  border-bottom: 2px solid #57c7d4;
+}
+.form-material.form-group.has-info .form-control:-webkit-autofill {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#57c7d4), to(#57c7d4)), -webkit-gradient(linear, left top, left bottom, from(#e4eaec), to(#e4eaec));
+  background-image: -webkit-linear-gradient(#57c7d4, #57c7d4), -webkit-linear-gradient(#e4eaec, #e4eaec);
+  background-image: linear-gradient(#57c7d4, #57c7d4), linear-gradient(#e4eaec, #e4eaec);
+}
+.no-cssgradients .form-material.form-group.has-info .form-control:-webkit-autofill {
+  background: transparent;
+  border-bottom: 2px solid #57c7d4;
+}
+.form-material.form-group.has-info .form-control:not(.empty) {
+  -webkit-background-size: 100% 2px, 100% 1px;
+          background-size: 100% 2px, 100% 1px;
+}
+.form-material.form-group.has-info .control-label {
+  color: #57c7d4;
+}
+.form-material.form-group.has-info .form-control:focus ~ .floating-label,
+.form-material.form-group.has-info .form-control.focus ~ .floating-label,
+.form-material.form-group.has-info .form-control:not(.empty) ~ .floating-label {
+  color: #57c7d4;
+}
+.form-material.form-group.has-info .form-control:-webkit-autofill ~ .floating-label {
+  color: #57c7d4;
+}
+.form-material .input-group .form-control-wrap {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.form-material .input-group .form-control-wrap .form-control {
+  float: none;
+}
+.form-material .input-group .input-group-addon {
+  border: 0;
+  background: transparent;
+}
+.form-material .input-group .input-group-btn .btn {
+  border-radius: 4px;
+  margin: 0;
+}
+.form-material input[type=file] {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}

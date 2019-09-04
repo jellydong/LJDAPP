@@ -1,0 +1,313 @@
+﻿@using LJD.App.Util
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayUILayout.cshtml";
+}
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="layui-form-item">  
+                <div class="layui-inline">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline">
+                        <select name="status">
+                            <option value="">请选择</option>
+                            <option value="0">启用</option>
+                            <option value="1">禁用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">末级</label>
+                    <div class="layui-input-inline">
+                        <select name="isLast">
+                            <option value="">请选择</option>
+                            <option value="0">是</option>
+                            <option value="1">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">菜单显示</label>
+                    <div class="layui-input-inline">
+                        <select name="isMenuShow">
+                            <option value="">请选择</option>
+                            <option value="0">是</option>
+                            <option value="1">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-list" data-type="add">添加菜单</button>
+            </div>
+            <table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table>
+            <script type="text/html" id="StatusTpl">
+                {{# if(d.Status==0){ }}
+                <button class="layui-btn layui-btn-xs">启用</button>
+                {{# } else { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs">禁用</button>
+                {{# } }}
+            </script>
+            <script type="text/html" id="IsLastTpl">
+                {{# if(d.IsLast==0){ }}
+                <button class="layui-btn layui-btn-xs">是</button>
+                {{# } else { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs">否</button>
+                {{# } }}
+            </script>
+            <script type="text/html" id="IsMenuShowTpl">
+                {{# if(d.IsMenuShow==0){ }}
+                <button class="layui-btn layui-btn-xs">是</button>
+                {{# } else { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs">否</button>
+                {{# } }}
+            </script>
+            <script type="text/html" id="MIconTpl">
+                <i class="{{d.MIcon}}"></i>
+            </script>
+            <script type="text/html" id="table-list">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+                <a class="layui-btn layui-bg-orange layui-btn-xs" lay-event="setBtn"><i class="layui-icon layui-icon-set"></i>权限项设置</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+            </script>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+        var editObj=null,ptable=null,treeGrid=null,tableId='treeTable',layer=null;
+    layui.use(['jquery', 'treeGrid', 'layer','util','form'], function () {
+        var $ = layui.jquery ,util=layui.util, form = layui.form;
+        treeGrid = layui.treeGrid;//很重要
+        layer = layui.layer;
+        ptable = treeGrid.render({
+            id: tableId
+            , elem: '#' + tableId
+            ,idField:'ObjectID'//必須字段
+            , url: '@Url.Action("List", "Menus")'
+            , cellMinWidth: 100
+            , treeId: 'ObjectID'//树形id字段名称
+            , treeUpId: 'ParentID'//树形父id字段名称
+            , treeShowName: 'MName'//以树形式显示的字段
+            , iconOpen: true//是否显示图标【默认显示】
+            , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
+            ,loading:true
+            , method: 'get'
+            ,request: {
+                pageName: 'pageIndex' //页码的参数名称，默认：page
+                ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,isPage:false
+            , cols: [[
+                {type:'numbers'}
+                ,{type:'radio'}
+                //,{type:'checkbox'}
+                ,{ field: 'MName', width: 200, title: '菜单名称',sort:true } 
+                , { field: "MArea", title: "区域",width:100 }
+                , { field: "MController", title: "控制器" }
+                //, { field: "MAction", title: "方法" ,hide:true }
+                 , { field: "MIcon", title: "图标", templet: "#MIconTpl",width:60, align: 'center' }
+                , { field: "Remark", title: "备注" }
+                //, { field: "ParentID", title: "父ID",hide:true }
+                //, { field: "Sort", title: "排序值" ,hide:true}
+                //通用项
+                , { field: "CreatedTime", title: "创建时间", width: 100, templet: function (d) {return util.toDateString(d.CreatedTime,"yyyy-MM-dd")} , sort: !0 }
+                , { field: "Status", title: "状态", templet: "#StatusTpl", width: 80, align: "center" }
+                , { field: "IsLast", title: "末级", templet: "#IsLastTpl", width: 80, align: "center" }
+                , { field: "IsMenuShow", title: "菜单显示", templet: "#IsMenuShowTpl", width: 150, align: "center" }
+                //,{
+                //    width: 100, title: '操作', align: 'center'/*toolbar: '#barDemo'*/
+                //    , templet: function (d) {
+                //        var html = '';
+                //        var addBtn = '<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">添加</a>';
+
+                //        var delBtn = '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
+                //        return addBtn + delBtn;
+                //    }
+                //}
+                 , { title: "操作" , align: "center",  toolbar: "#table-list", width: 260 }
+            ]]
+            ,parseData:function (res) {//数据加载后回调
+                return res;
+            }
+            ,onClickRow:function (index, o) {
+                console.log(index,o,"单击！");
+            }
+            ,onDblClickRow:function (index, o) {
+                console.log(index,o,"双击");
+            }
+            ,onCheck:function (obj,checked,isAll) {//复选事件
+                console.log(obj,checked,isAll);
+            }
+            ,onRadio:function (obj) {//单选事件
+                console.log(obj);
+            }
+
+        });
+        //工具按钮
+        treeGrid.on('tool('+tableId+')',function (obj) {
+            if(obj.event === 'del'){//删除行
+                del(obj);
+            }else if(obj.event==="edit"){//添加行
+                edit(obj);
+            } else if (obj.event === "setBtn") {//按钮设置
+                setBtn(obj);
+            }
+        });
+        //监听搜索
+        form.on('submit(LAY-app-search)', function (data) {
+            var field = data.field;
+
+            //执行重载
+            treeGrid.query(tableId,{
+                where:field
+            });
+        });
+
+        function del(obj) {
+            var data = obj.data;
+            if (data.children.length !== 0) {
+                layer.msg('存在下级菜单,不可删除！', {icon: 5});
+            } else {
+                layer.confirm("确定删除吗？", {icon: 3, title:'提示'},
+                    function (index) {//确定回调
+                        //关闭弹窗
+                        layer.close(index);
+                        $.ajax({
+                            url: '@Url.Action("Delete", "Menus")',
+                            type: 'POST',
+                            data: { id:  data.ObjectID},
+                            dataType: 'json',
+                            success: function(data) {
+                                debugger;
+                                if (data.Success) {
+                                    //表格删除
+                                    obj.del();
+                                } else {
+                                    layer.msg(data.Message, {icon:5});
+                                }
+                            }
+                        });
+                    },function (index) {//取消回调
+                        layer.close(index);
+                    }
+                );
+            }
+        }
+
+        function edit(obj) {
+            var data = obj.data;
+            layer.open({
+                    type: 2,
+                    title: "编辑",
+                    content: "@Url.Action("Form", "Menus")?objectId=" + data.ObjectID,
+                    maxmin: !0,
+                    area: ['60%', '95%'],
+                    btn: ["确定", "取消"],
+                    yes: function (e, i) {
+                        var l = window["layui-layer-iframe" + e],
+                            a = i.find("iframe").contents().find("#layuiadmin-app-form-edit");
+                        l.layui.form.on("submit(layuiadmin-app-form-edit)",
+                            function (i) {
+                                debugger
+                                //获取新开窗口的form
+                                var field = i.field;
+                                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                                $.ajax({
+                                    url: '@Url.Action("Form", "Menus")',
+                                    type: 'POST',
+                                    data: field,
+                                    dataType: 'json',
+                                    success: function(data) {
+                                        debugger;
+                                        if (data.Success) {
+                                            treeGrid.reload(tableId);
+                                            //清空form
+                                            form.render();
+                                            //关闭弹窗
+                                            layer.close(e);
+                                        } else {
+                                            layer.msg(data.Message, {icon: 5});
+                                        }
+                                    }
+                                });
+                            }), a.trigger("click");
+                    }
+                });
+        }
+
+        function setBtn(obj) {
+            layer.open({
+                type: 2,
+                title: "【"+obj.data.MName+"】权限项设置",
+                content: "@Url.Action("Index","Function")?objectId=" + obj.data.ObjectID,
+                maxmin: !0,
+                area: ['80%', '95%'],
+                btn: ["确定", "关闭"],
+                yes: function (e, i) {
+                    //关闭窗口
+                    layer.close(e);
+                }
+            });
+        }
+
+        function addChild(parentId) {
+            layer.open({
+                type: 2
+                , title: '添加菜单'
+                , content: '@Url.Action("Form","Menus")?parentId='+parentId
+                , maxmin: true
+                , area: ['60%', '95%']
+                , btn: ['确定', '取消']
+                , yes: function (index, layero) {
+                    //点击确认触发 iframe 内容中的按钮提交
+                    var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
+                    submit.click();
+                }
+            });
+        }
+
+        //顶部按钮
+        var $ = layui.$, active = {
+            add: function () {
+                var data = treeGrid.radioStatus(tableId);
+                debugger;
+                if (!data.ObjectID) {
+                    layer.confirm("确定添加根菜单吗？", {icon: 3, title:'提示'},
+                        function (index) {//确定回调
+                            //关闭弹窗
+                            layer.close(index);
+                            addChild('0');
+                        }
+                    );
+                } else {
+                    if (data.Hierarchy>=@GlobalSwitch.MenuMaxHierarchy) {
+                       return  layer.alert('当前菜单已经是系统设定菜单最大层级【@GlobalSwitch.MenuMaxHierarchy】层，如需要继续添加请修改系统配置！', {icon: 5, title:'错误'});
+                    }
+                    if (data.IsLast===0) {
+                        layer.msg('末级菜单不能添加子菜单！', {icon: 5});
+                    } else {
+                        return addChild(data.ObjectID);
+                    }
+                }
+
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+    </script>
+}

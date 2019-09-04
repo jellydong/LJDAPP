@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LJD.App.Model\LJD.App.Model.csproj" />
+    <ProjectReference Include="..\LJD.App.Util\LJD.App.Util.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="IRepository\AIRepository.cs">
+      <DependentUpon>AIRepository.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Repository\ARepository.cs">
+      <DependentUpon>ARepository.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="IRepository\AIRepository.tt">
+      <LastGenOutput>AIRepository.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Repository\ARepository.tt">
+      <LastGenOutput>ARepository.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>
