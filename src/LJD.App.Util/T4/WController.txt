@@ -1,0 +1,4 @@
+﻿ 
+
+
+//没有指定【TableName】和【ClassName】请在 WebHelper.ttinclude中配置

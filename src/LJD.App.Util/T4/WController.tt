@@ -1,0 +1,119 @@
+﻿<#@ output extension=".txt" #> 
+
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Data.DataSetExtensions" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="$(ProjectDir)../LJD.App.Util/T4/WebHelper.ttinclude"  #>
+<#    if(string.IsNullOrEmpty(config.ClassName)||string.IsNullOrEmpty(config.ClassName)){#>
+//没有指定【TableName】和【ClassName】请在 WebHelper.ttinclude中配置
+<#    }else{ #> 
+using System;
+using System.Linq;
+using LJD.App.Model.DbModels;
+using LJD.App.Repository.IUnitOfWork;
+using LJD.App.Service;
+using LJD.App.Service.IService;
+using LJD.App.Util; 
+using Microsoft.AspNetCore.Mvc;
+
+namespace LJD.App.Web.Areas.Admin.Controllers
+{    
+    [Area("Admin")]
+    public class <#=config.ClassName#>Controller: AdminBaseController
+    {
+        private readonly I<#=config.TableName#>Service _<#=config.FirstToLower(config.TableName) #>Service;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public <#=config.ClassName#>Controller(I<#=config.TableName#>Service <#=config.FirstToLower(config.TableName) #>Service, IUnitOfWork unitOfWork)
+        {
+            _<#=config.FirstToLower(config.TableName) #>Service = <#=config.FirstToLower(config.TableName) #>Service;
+            _unitOfWork = unitOfWork;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult List(PagerInfo pagerInfo)
+        {
+            var list =  _<#=config.FirstToLower(config.TableName) #>Service.GetList(pagerInfo.PageIndex, pagerInfo.PageSize, out var count, <#=config.GetFirstChar(config.ClassName) #> => true, false, <#=config.GetFirstChar(config.ClassName) #> => <#=config.GetFirstChar(config.ClassName) #>.CreatedTime);
+
+            return Json(BuildSuccessTableResult(count, list));
+        }
+
+        public IActionResult Form(string objectId)
+        {
+            //如果objectId不为空的话 需要则是编辑，获取信息否则新建一个
+            var <#=config.FirstToLower(config.TableName) #> = string.IsNullOrEmpty(objectId)?new <#=config.TableName #>(){ Status = (int)Status.On } : _<#=config.FirstToLower(config.TableName) #>Service.GetList(<#=config.GetFirstChar(config.ClassName) #> => <#=config.GetFirstChar(config.ClassName) #>.ObjectID.Equals(objectId)).FirstOrDefault(); 
+
+            return View(<#=config.FirstToLower(config.TableName) #>);
+        }
+
+        [HttpPost]
+        public IActionResult Form( <#=config.TableName #>  <#=config.FirstToLower(config.TableName) #>)
+        {
+            ResponseResult responseResult = new ResponseResult(success:false,message:"保存失败！");
+            if (string.IsNullOrEmpty( <#=config.FirstToLower(config.TableName) #>.ObjectID))
+            {
+                 <#=config.FirstToLower(config.TableName) #>.CreatedBy = CurrentUserManage.UserInfo.URealName;
+                 <#=config.FirstToLower(config.TableName) #>.CreatedTime = DateTime.Now; 
+                 <#=config.FirstToLower(config.TableName) #>.Status =  <#=config.FirstToLower(config.TableName) #>.Status == 0 ? 0 : 1;
+                 _<#=config.FirstToLower(config.TableName) #>Service.Create( <#=config.FirstToLower(config.TableName) #>); 
+                
+                if (_unitOfWork.SaveChanges() == 1)
+                {
+                    responseResult.Success = true;
+                    responseResult.Message = "保存成功！";
+                }
+            }
+            else
+            {
+                var model =  _<#=config.FirstToLower(config.TableName) #>Service.GetList(<#=config.GetFirstChar(config.ClassName) #> => <#=config.GetFirstChar(config.ClassName) #>.ObjectID.Equals( <#=config.FirstToLower(config.TableName) #>.ObjectID))
+                    .FirstOrDefault();
+                if (model != null)
+                {  
+  <#    foreach(DbColumn column in DbHelper.GetDbColumns(config.ConnectionString, config.DbDatabase, config.TableName)){ 
+        if(column.ColumnName!="ObjectID"&&column.ColumnName!="CreatedBy"&&column.ColumnName!="CreatedTime"&&column.ColumnName!="ModifiedBy"&&column.ColumnName!="ModifiedTime"&&column.ColumnName!="Status"){ #> 
+                    model.<#=column.ColumnName #> =  <#=config.FirstToLower(config.TableName) #>.<#=column.ColumnName #>;  <# }} #> 
+                    //后台设置项
+                    model.Status =  <#=config.FirstToLower(config.TableName) #>.Status==0?0:1;
+                    model.ModifiedTime=DateTime.Now;
+                    model.ModifiedBy = CurrentUserManage.UserInfo.URealName;
+                     _<#=config.FirstToLower(config.TableName) #>Service.Edit(model);
+
+
+                    if (_unitOfWork.SaveChanges()==1)
+                    {
+                        responseResult.Success = true;
+                        responseResult.Message = "保存成功！";
+                    }
+                }else{
+                    responseResult.Message = "要修改的数据不存在！";                  
+                }
+            }
+
+            return Json(responseResult);
+
+        }
+
+        [HttpPost]
+        public IActionResult Delete(string ids)
+        {
+            var idsList = ids.ToList<string>();
+             _<#=config.FirstToLower(config.TableName) #>Service.Delete(<#=config.GetFirstChar(config.ClassName) #>=>idsList.Contains(<#=config.GetFirstChar(config.ClassName) #>.ObjectID));
+            _unitOfWork.SaveChanges();
+            return Json(new ResponseResult(true, "删除成功！"));
+
+        }
+    }  
+} 
+<#    } #>

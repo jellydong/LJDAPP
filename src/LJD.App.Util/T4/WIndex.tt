@@ -1,0 +1,241 @@
+﻿<#@ output extension=".txt" #> 
+
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Data.DataSetExtensions" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>   
+<#@ include file="$(ProjectDir)../LJD.App.Util/T4/WebHelper.ttinclude"  #>
+<#    if(string.IsNullOrEmpty(config.ClassName)||string.IsNullOrEmpty(config.ClassName)){#>
+//没有指定【TableName】和【ClassName】请在 WebHelper.ttinclude中配置
+<#    }else{ #> 
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayUILayout.cshtml";
+}
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="layui-form-item">
+                <div class="layui-inline ">
+                    <label class="layui-form-label">文本框</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="text" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+               
+                <div class="layui-inline">
+                    <label class="layui-form-label">下拉框</label>
+                    <div class="layui-input-inline">
+                        <select name="ugender">
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="0">选项二</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchdel">删除</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add">添加</button>
+            </div>
+            <table id="LAY-app-list" lay-filter="LAY-app-list"></table>
+            <script type="text/html" id="StatusTpl">
+                {{#  if(d.Status==0){ }}
+                <button class="layui-btn layui-btn-xs">启用</button>
+                {{#  } else { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs">禁用</button>
+                {{#  } }}
+            </script> 
+            <script type="text/html" id="table-list">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+         layui.use(['util','form', 'table'], function () {
+             var table = layui.table
+             ,util=layui.util
+            , form = layui.form;
+        //Table定义
+        table.render({
+            elem: "#LAY-app-list",
+            url: "@Url.Action("List","<#=            config.ClassName#>")"
+            ,request: {
+                pageName: 'pageIndex' //页码的参数名称，默认：page
+                ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,cols: [[
+                { type: "checkbox", fixed: "left" } <#        foreach(DbColumn column in DbHelper.GetDbColumns(config.ConnectionString, config.DbDatabase, config.TableName)){ 
+            if(column.ColumnName!="ObjectID"&&column.ColumnName!="CreatedBy"&&column.ColumnName!="CreatedTime"&&column.ColumnName!="ModifiedBy"&&column.ColumnName!="ModifiedTime"&&column.ColumnName!="Status"){ #>  
+                , { field: "<#=                    column.ColumnName #>", title: "<#=                    column.Remark #>" } <#            }} #> 
+                //通用项
+                , { field: "CreatedTime", title: "创建时间", templet: function (d) {return util.toDateString(d.CreatedTime,"yyyy-MM-dd")} , sort: !0 } 
+                , { field: "Status", title: "状态", templet: "#StatusTpl", width: 80, align: "center" }
+                , { title: "操作", minWidth: 150, align: "center", fixed: "right", toolbar: "#table-list" }
+            ]]
+            , page: true
+            ,limit: 10
+            ,limits: [10, 15, 20, 25, 30]
+        });
+        //监听工具条
+        table.on("tool(LAY-app-list)", function (t) {
+            var data = t.data;
+            if (t.event === "del") {
+                layer.confirm("确定删除此记录？", function (e) {
+                    var ids = [];
+                    ids.push(data.ObjectID);
+                    $.ajax({
+                        url: '@Url.Action("Delete", "<#=            config.ClassName#>")',
+                        type: 'POST',
+                        data: { ids:  JSON.stringify(ids)},
+                        dataType: 'json',
+                        success: function(data) {
+                            debugger;
+                            if (data.Success) { 
+                                //表格删除
+                                t.del();
+                                //关闭弹窗
+                                layer.close(e);
+                            } else {
+                                layer.msg(data.Message, {icon: 5});
+                            }
+                        }
+                    });
+                });
+            } else if (t.event === "edit") {
+                layer.open({
+                    type: 2,
+                    title: "编辑",
+                    content: "@Url.Action("Form","<#=            config.ClassName#>")?objectId=" + data.ObjectID,
+                    maxmin: !0,
+                    area: ['60%', '95%'],
+                    btn: ["确定", "取消"],
+                    yes: function (e, i) {
+                        var l = window["layui-layer-iframe" + e],
+                            a = i.find("iframe").contents().find("#layuiadmin-app-form-edit");
+                        l.layui.form.on("submit(layuiadmin-app-form-edit)",
+                            function (i) {
+                                debugger
+                                //获取新开窗口的form
+                                var field = i.field;
+
+                                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                                $.ajax({
+                                    url: '@Url.Action("Form", "<#=            config.ClassName#>")',
+                                    type: 'POST',
+                                    data: field,
+                                    dataType: 'json',
+                                    success: function(data) {
+                                        debugger;
+                                        if (data.Success) {
+
+                                            //更新表格记录
+                                            t.update({ <#        foreach(DbColumn column in DbHelper.GetDbColumns(config.ConnectionString, config.DbDatabase, config.TableName)){ 
+            if(column.ColumnName!="ObjectID"&&column.ColumnName!="CreatedBy"&&column.ColumnName!="CreatedTime"&&column.ColumnName!="ModifiedBy"&&column.ColumnName!="ModifiedTime"&&column.ColumnName!="Status"){ #>  
+                                                <#=                    column.ColumnName #>: field.<#=                    column.ColumnName #>, <#            }} #>  
+                                                Status: field.Status
+                                            });
+                                            //清空form
+                                            form.render();
+                                            //关闭弹窗
+                                            layer.close(e);
+                                        } else {
+                                            layer.msg(data.Message, {icon: 5});
+                                        }
+                                    }
+                                });
+                            }), a.trigger("click");
+                    }
+                });
+            }
+        });
+
+        //监听搜索
+        form.on('submit(LAY-app-search)', function (data) {
+            var field = data.field;
+
+            //执行重载
+            table.reload('LAY-app-list', {
+                where: field
+            });
+        });
+        //顶部按钮
+        var $ = layui.$, active = {
+            batchdel: function () {
+                var checkStatus = table.checkStatus('LAY-app-list')
+                    , checkData = checkStatus.data; //得到选中的数据
+
+                if (checkData.length === 0) {
+                    return layer.msg('请选择数据');
+                }
+                layer.confirm('确定删除吗？', function (index) {
+                    var ids = [];
+                    $.each(checkData,
+                        function(index, value) {
+                            ids.push(value['ObjectID']);
+                        }); 
+                    //执行 Ajax 后重载
+                    $.ajax({
+                        url: '@Url.Action("Delete", "<#=            config.ClassName#>")',
+                        type: 'POST',
+                        data: { ids: JSON.stringify(ids) },
+                        dataType: 'json',
+                        success: function(data) {
+                            debugger;
+                            if (data.Success) {
+                                table.reload('LAY-app-list');
+                                layer.msg(data.Message, {icon: 6});
+                            } else {
+                                layer.msg(data.Message, {icon: 5});
+                            }
+                        }
+                    });
+                });
+            },
+            add: function () {
+                layer.open({
+                    type: 2
+                    , title: '添加'
+                    , content: '@Url.Action("Form","<#=            config.ClassName#>")'
+                    , maxmin: true
+                    , area: ['60%', '95%']
+                    , btn: ['确定', '取消']
+                    , yes: function (index, layero) {
+                        //点击确认触发 iframe 内容中的按钮提交
+                        var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
+                        submit.click();
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+    </script>
+}
+<#    } #>

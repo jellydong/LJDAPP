@@ -1,0 +1,128 @@
+﻿<#@ output extension=".txt" #> 
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Data.DataSetExtensions" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>   
+<#@ include file="$(ProjectDir)../LJD.App.Util/T4/WebHelper.ttinclude"  #>
+<#    if(string.IsNullOrEmpty(config.ClassName)||string.IsNullOrEmpty(config.ClassName)){#>
+//没有指定【TableName】和【ClassName】请在 WebHelper.ttinclude中配置
+<#    }else{ #> 
+@using LJD.App.Util
+@model LJD.App.Model.DbModels.<#=            config.TableName#>
+
+@{
+    ViewData["Title"] = "编辑";
+    Layout = "~/Views/Shared/_LayUIFormLayout.cshtml";
+}
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item layui-hide layui-col-md12">
+        <label class="layui-form-label">ObjectId</label>
+        <div class="layui-input-inline">
+            <input type="text" name="ObjectID" placeholder="ObjectId" value="@Model.ObjectID" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <#        foreach(DbColumn column in DbHelper.GetDbColumns(config.ConnectionString, config.DbDatabase, config.TableName)){ 
+            if(column.ColumnName!="ObjectID"&&column.ColumnName!="CreatedBy"&&column.ColumnName!="CreatedTime"&&column.ColumnName!="ModifiedBy"&&column.ColumnName!="ModifiedTime"&&column.ColumnName!="Status"&&column.ColumnName!="Remark"&&column.ColumnName!="Sort"){ #>  
+    <div class="layui-form-item layui-col-md12">
+        <label class="layui-form-label"><#=                    column.Remark #></label>
+        <div class="layui-input-block">
+            <input type="text" name="<#=                    column.ColumnName #>"  value="@Model.<#=                    column.ColumnName #>" placeholder="请输入<#=                    column.Remark #>" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+ <#            }} #> 
+
+    <div class="layui-form-item layui-col-md12">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea name="Remark" lay-verify="required" autocomplete="off" class="layui-textarea">@Model.Remark</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-col-md12">
+        <div class="layui-col-md6">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-inline">
+                @if (Model.Status.Equals((int) Status.On))
+                {
+                <input type="checkbox" lay-filter="status" value="0" name="Status" lay-skin="switch" lay-text="启用|禁用" checked>
+                }
+                else
+                {
+                <input type="checkbox" lay-filter="status" value="0" name="Status" lay-skin="switch" lay-text="启用|禁用">
+                }
+            </div>
+        </div>
+        <div class="layui-col-md6">
+            <label class="layui-form-label">排序值</label>
+            <div class="layui-input-inline">
+                <input type="number" name="Sort" value="@Model.Sort" placeholder="请输入排序值" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit" value="确认添加">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-edit" id="layuiadmin-app-form-edit" value="确认编辑">
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        layui.use(['form'],
+            function() {
+                var $ = layui.$, form = layui.form; 
+                //监听提交
+                form.on('submit(layuiadmin-app-form-submit)',
+                    //注意：这里只是添加的用，编辑的在index页面
+                    function(data) {
+                        var field = data.field; //获取提交的字段 
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        debugger;
+                        //提交 Ajax 成功后，关闭当前弹层并重载表格
+                        $.ajax({
+                            url: '@Url.Action("Form", "<#=            config.ClassName#>")',
+                            type: 'POST',
+                            data: field,
+                            dataType: 'json',
+                            success: function(data) {
+                                debugger;
+                                if (data.Success) {
+                                    parent.layui.table.reload('LAY-app-list'); //重载表格
+                                    parent.layer.close(index); //再执行关闭
+                                } else { 
+                                    layer.msg(data.Message, {icon: 5});
+                                }
+                            }
+                        });
+                    });
+                /* 自定义验证规则 */
+                form.verify({
+                    //ULoginName: function(value) {
+                        //if (value.length < 5||value.length>15||!/^[A-Za-z0-9]+$/.test(value)) {
+                            //return '用户名必须由英文或数字组成且长度为5-15';
+                        //}
+                    //},
+                    //URealName: function(value) {
+                        //if (value.length < 2) {
+                            //return '姓名至少2个汉字';
+                        //}
+                        //if (!/^[\u4e00-\u9fa5]{0,}$/.test(value)) {
+                            //return '姓名必须是汉字';
+                        //}
+                    //},
+                    //UTelphone: [/\d{3}-\d{8}|\d{4}-\d{7,8}/, '请输入正确的电话号码'],
+                    //Uqq: [/[1-9][0-9]{4,}/, '请输入正确的QQ号']
+
+                });
+            })
+    </script>
+}
+<#    } #>
