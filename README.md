@@ -134,3 +134,6 @@
 > Demo地址：http://app.525600.xyz
 > 源代码地址：https://github.com/jellydong/LJDAPP
 > 数据并不会真实保存，设定的为测试模式，所以免登录。
+### 赞助我
+![支付宝](https://images.cnblogs.com/cnblogs_com/jellydong/1541266/o_zhifubao.png)
+![微信](https://images.cnblogs.com/cnblogs_com/jellydong/1541266/o_weixin.png)
