@@ -135,5 +135,6 @@
 > 源代码地址：https://github.com/jellydong/LJDAPP
 > 数据并不会真实保存，设定的为测试模式，所以免登录。
 ### 赞助我
+![](https://img2020.cnblogs.com/blog/1006210/202007/1006210-20200713193425742-1948736694.png)
 ![支付宝](https://images.cnblogs.com/cnblogs_com/jellydong/1541266/o_zhifubao.png)
 ![微信](https://images.cnblogs.com/cnblogs_com/jellydong/1541266/o_weixin.png)
