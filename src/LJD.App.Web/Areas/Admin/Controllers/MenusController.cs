@@ -96,7 +96,7 @@ namespace LJD.App.Web.Areas.Admin.Controllers
                     sysMenus.IsMenuShow = sysMenus.IsMenuShow == 0 ? 0 : 1;
                     sysMenus.Status = sysMenus.Status == 0 ? 0 : 1;
                     sysMenus.Hierarchy = hierarchy;
-                    //末级菜单 默认创建 查询和管理权限项
+                    //末级菜单 默认创建 查询和管理权限项 
                     if (sysMenus.IsLast == 0)
                     {
                         sysMenus.SysFunction = BuildFunctions(sysMenus.ObjectID,sysMenus.MArea,sysMenus.MController);
