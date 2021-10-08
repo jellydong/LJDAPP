@@ -18,7 +18,7 @@ JWT登录后获取用户信息
 ![菜单管理](/img/1.2.png)
 
 ### 感谢
-
+> [PearAdmin](https://pearadmin.com/)
 > [Swagger](https://swagger.io/)
 >
 > [Autofac](https://github.com/autofac/Autofac)
@@ -34,6 +34,7 @@ JWT登录后获取用户信息
 > [Serilog](https://github.com/serilog/serilog)
 
 ### 总结
+升级权限等未完成，只是接口和Web项目调通。前端可以使用`Vue`、`Angular`、`Blazor`等其他技术栈。
 
 ### 赞助我 
 ![支付宝](/img/o_zhifubao.png)![微信](/img/o_weixin.png)
