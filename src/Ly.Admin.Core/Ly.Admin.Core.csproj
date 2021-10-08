@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.2.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ly.Admin.Repositories\Ly.Admin.Repositories.csproj" />
+    <ProjectReference Include="..\Ly.Admin.Resources\Ly.Admin.Resources.csproj" />
+    <ProjectReference Include="..\Ly.Admin.Services\Ly.Admin.Services.csproj" />
+  </ItemGroup>
+
+</Project>

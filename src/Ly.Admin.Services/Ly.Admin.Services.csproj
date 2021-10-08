@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ly.Admin.IRepositories\Ly.Admin.IRepositories.csproj" />
+    <ProjectReference Include="..\Ly.Admin.IServices\Ly.Admin.IServices.csproj" />
+    <ProjectReference Include="..\Ly.Admin.Model\Ly.Admin.Model.csproj" />
+  </ItemGroup>
+
+</Project>

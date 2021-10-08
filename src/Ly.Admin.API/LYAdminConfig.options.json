@@ -1,0 +1,26 @@
+/*
+  项目配置文件
+  如果增加配置或者修改配置 Key 要对应修改
+  LY.Admin.Util\Configuration\LYAdminOptions.cs
+  Startup 的配置 在  #配置直接获取
+*/
+{
+  "LYAdminOptions": {
+    "ProjectName": "LYAdmin",
+    "RunModel": "LocalTest",
+    "RedisConfig": "localhost:6379",
+    "LoginExpireMinutes": 30,
+    "InitialPassword": "000000",
+    "CacheType": {
+      "DefaultCache": "SystemCache", //缓存类型
+      "RedisConfig": "localhost:6379"
+    },
+    "DefaultAPPKeys": {
+      "VerifyCode": "LYADMIN_VERIFYCODE", //验证码
+      "CurrentUser": "LYADMIN_CURRENTUSER", //登录
+      "AuthRefreshToken": "LYADMIN_AUTHREFRESHTOKEN",
+      "AuthInfo": "LYADMIN_AUTHINFO",
+      "PermissionList": "LYADMIN_PERMISSIONLIST_" //权限
+    }
+  }
+}

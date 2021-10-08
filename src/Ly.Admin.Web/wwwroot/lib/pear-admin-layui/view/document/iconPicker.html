@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>图标选择</title>
+		<link rel="stylesheet" href="../../component/pear/css/pear.css" />
+	</head>
+	<body class="pear-container">
+		<div class="layui-row layui-col-space10">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header">开发环境</div>
+					<div class="layui-card-body">
+						Icon 提供图标选择功能
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12">
+				<div class="layui-collapse">
+					<div class="layui-colla-item">
+						<h2 class="layui-colla-title">显示代码</h2>
+						<div class="layui-colla-content">
+							<pre class="layui-code" lay-encode="true">
+								<link rel="stylesheet" href="component/pear/css/pear.css" />
+								 并
+								<script src="component/layui/layui.js"></script>
+								 并
+								<script src="component/pear/pear.js"></script>
+							</pre>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header">
+						默认图标
+					</div>
+					<div class="layui-card-body">
+						<div class="layui-form">
+							<div class="layui-form-item">
+								<div class="layui-input-inline">
+									<input type="text" id="iconPicker" value="layui-icon-face-smile" lay-filter="iconPicker" class="hide">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12">
+				<div class="layui-collapse">
+					<div class="layui-colla-item">
+						<h2 class="layui-colla-title">显示代码</h2>
+						<div class="layui-colla-content">
+							<pre class="layui-code" lay-encode="true">
+								layui.use(['icon'], function() {
+								    var icon = layui.icon;
+								
+								    icon.render({
+								        elem: '#iconPicker'
+								        ,style: 'color: #5FB878;'
+								        ,placeholder: ''
+								        ,isSplit: true
+								        ,page: false
+								        ,search: false
+								        ,click: function(obj){
+								        console.log(obj)
+								    }
+								    ,ready: function(){
+								        console.log(1)
+								    }});
+								});
+							</pre>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header">开启搜索</div>
+					<div class="layui-card-body">
+						<div class="layui-form">
+							<div class="layui-form-item">
+								<div class="layui-input-inline">
+									<input type="text" id="iconPicker2" value="layui-icon-face-smile-fine" lay-filter="iconPicker2">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12">
+				<div class="layui-collapse">
+					<div class="layui-colla-item">
+						<h2 class="layui-colla-title">显示代码</h2>
+						<div class="layui-colla-content">
+							<pre class="layui-code" lay-encode="true">
+								layui.use(['icon'], function() {
+								    var icon = layui.icon;
+								
+								    icon.render({
+								        elem: '#iconPicker2'
+								        ,style: 'color: #5FB878;'
+								        ,placeholder: ''
+								        ,isSplit: true
+								        ,page: false
+								        ,search: true
+								        ,click: function(obj){
+								        console.log(obj)
+								    }
+								    ,ready: function(){
+								        console.log(1)
+								    }});
+									
+								});
+							</pre>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header">关闭分页</div>
+					<div class="layui-card-body">
+						<div class="layui-form">
+							<div class="layui-form-item">
+								<div class="layui-input-inline">
+									<input type="text" id="iconPicker3" value="layui-icon-face-smile-fine" lay-filter="iconPicker3">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12">
+				<div class="layui-collapse">
+					<div class="layui-colla-item">
+						<h2 class="layui-colla-title">显示代码</h2>
+						<div class="layui-colla-content">
+							<pre class="layui-code" lay-encode="true">
+								layui.use(['iconPicker'], function() {
+								    var iconPicker = layui.iconPicker;
+																
+								    icon.render({
+								        elem: '#iconPicker3'
+								        ,style: 'color: #5FB878;'
+								        ,placeholder: ''
+								        ,isSplit: true
+								        ,page: false
+								        ,search: false
+								        ,click: function(obj){
+								        console.log(obj)
+								    }
+								    ,ready: function(){
+								        console.log(1)
+								    }});
+									
+								});
+							</pre>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../component/layui/layui.js"></script>
+		<script src="../../component/pear/pear.js"></script>
+		<script>
+			layui.use(['form', 'layer', 'icon', 'code', 'element'], function() {
+				var form = layui.form,
+					layer = layui.layer,
+					icon = layui.icon,
+					$ = layui.$;
+
+				layui.code();
+
+				icon.render({
+					elem: '#iconPicker',
+					style: 'color: #5FB878;',
+					placeholder: '',
+					isSplit: true,
+					page: true,
+					search: false,
+					click: function(obj) {
+						console.log(obj)
+					},
+					ready: function() {
+						console.log(1)
+					}
+				});
+
+				icon.render({
+					elem: '#iconPicker2',
+					style: 'color: #5FB878;',
+					placeholder: '',
+					isSplit: true,
+					page: false,
+					search: true,
+					click: function(obj) {
+						console.log(obj)
+					},
+					ready: function() {
+						console.log(1)
+					}
+				});
+
+
+				icon.render({
+					elem: '#iconPicker3',
+					style: 'color: #5FB878;',
+					placeholder: '',
+					isSplit: true,
+					page: false,
+					search: true,
+					click: function(obj) {
+						console.log(obj)
+					},
+					ready: function() {
+						console.log(1)
+					}
+				});
+
+
+			});
+		</script>
+	</body>
+</html>

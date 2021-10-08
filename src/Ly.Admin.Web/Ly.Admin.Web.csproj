@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Ly.Admin.Auth\Ly.Admin.Auth.csproj" />
+		<ProjectReference Include="..\Ly.Admin.Core\Ly.Admin.Core.csproj" />
+		<ProjectReference Include="..\Ly.Admin.Resources\Ly.Admin.Resources.csproj" />
+		<ProjectReference Include="..\Ly.Admin.Util\Ly.Admin.Util.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="LYAdminConfig.options.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Config\Extentions\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Autofac" Version="6.2.0" />
+	  <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+	  <PackageReference Include="AutoMapper" Version="10.1.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10" />
+	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.0-rc.1.21464.1" />
+	  <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+	  <PackageReference Include="Serilog.Settings.Configuration" Version="3.2.0" />
+	  <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
+	  <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+	  <PackageReference Include="SharpZipLib" Version="1.3.3" />
+	</ItemGroup>
+</Project>

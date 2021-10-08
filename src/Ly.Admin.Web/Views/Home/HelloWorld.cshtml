@@ -1,0 +1,25 @@
+﻿ @{
+    Layout = "_Layout";
+    ViewData["Title"] = "Hello World";
+}
+@section Styles {
+<style>
+    h1 {
+        margin-top: 200px;
+        color: #5FB878;
+    }
+
+    .layui-card-body {
+        text-align: center;
+        height: 500px;
+    }
+</style>
+}
+<div class="pear-container">
+    <div class="layui-card">
+        <div class="layui-card-header"></div>
+        <div class="layui-card-body">
+            <h1><b>@ViewBag.message.</b></h1>
+        </div>
+    </div>
+</div> 
