@@ -29,9 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ly.Admin.Auth", "Ly.Admin.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ly.Admin.Data.EF", "Ly.Admin.Data.EF\Ly.Admin.Data.EF.csproj", "{0F0BA09B-3B31-4F61-B6FF-E59198FCA59F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ly.Admin.API", "Ly.Admin.API\Ly.Admin.API.csproj", "{9C2B45DE-2412-4AF1-B20A-B0EEA32633E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ly.Admin.API", "Ly.Admin.API\Ly.Admin.API.csproj", "{9C2B45DE-2412-4AF1-B20A-B0EEA32633E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ly.Admin.Web", "Ly.Admin.Web\Ly.Admin.Web.csproj", "{480DAA09-0B7A-4F11-82C1-B34EFC3839C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ly.Admin.Web", "Ly.Admin.Web\Ly.Admin.Web.csproj", "{480DAA09-0B7A-4F11-82C1-B34EFC3839C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
