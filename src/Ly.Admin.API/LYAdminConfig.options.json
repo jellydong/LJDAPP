@@ -6,8 +6,7 @@
 */
 {
   "LYAdminOptions": {
-    "ProjectName": "LYAdmin",
-    "RunModel": "LocalTest",
+    "ProjectName": "LYAdmin", 
     "RedisConfig": "localhost:6379",
     "LoginExpireMinutes": 30,
     "InitialPassword": "000000",
