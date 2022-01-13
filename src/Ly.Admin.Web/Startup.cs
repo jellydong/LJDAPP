@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +54,7 @@ namespace Ly.Admin.Web
 
             })
             #endregion
-            ; 
+            ;
 
             #region 依赖注入
             //AddTransient：瞬时模式每次请求，都获取一个新的实例。即使同一个请求获取多次也会是不同的实例
@@ -82,19 +83,39 @@ namespace Ly.Admin.Web
             GlobalSettings.LyAdminOptions = lyAdminOptionsRoot.LyAdminOptions;
             #endregion
 
-            services.AddSingleton<LyAdminRequestDelegatingHandler>();
-            services.AddScoped<WeatherForecastServiceClient>();
-            services.AddScoped<AuthServiceClient>();
-            services.AddScoped<AccountServiceClient>();
+            #region API Client
+            services.AddTransient<LyAdminRequestDelegatingHandler>();
 
-            services.AddHttpClient("LyAdminApiService", client =>
+            services.AddRefitClient<IAccountServiceClient>()
+            .ConfigureHttpClient(httpClient =>
             {
-                client.DefaultRequestHeaders.Add("client-name", "Ly.Admin.Web");
-                client.BaseAddress = new Uri("http://localhost:5000");
-            }).SetHandlerLifetime(TimeSpan.FromMinutes(20))
+                httpClient.BaseAddress = new Uri("http://localhost:5000");
+                httpClient.DefaultRequestHeaders.Add("client-name", "Ly.Admin.Web");
+
+            })
+            //.SetHandlerLifetime(TimeSpan.FromMinutes(20))
             .AddHttpMessageHandler(provider => provider.GetService<LyAdminRequestDelegatingHandler>());
 
-           
+            services.AddRefitClient<IAuthServiceClient>()
+            .ConfigureHttpClient(httpClient =>
+            {
+                httpClient.BaseAddress = new Uri("http://localhost:5000");
+                httpClient.DefaultRequestHeaders.Add("client-name", "Ly.Admin.Web");
+
+            })
+            //.SetHandlerLifetime(TimeSpan.FromMinutes(20))
+            .AddHttpMessageHandler(provider => provider.GetService<LyAdminRequestDelegatingHandler>());
+
+            services.AddRefitClient<IWeatherForecastServiceClient>()
+            .ConfigureHttpClient(httpClient =>
+            {
+                httpClient.BaseAddress = new Uri("http://localhost:5000");
+                httpClient.DefaultRequestHeaders.Add("client-name", "Ly.Admin.Web");
+
+            })
+            //.SetHandlerLifetime(TimeSpan.FromMinutes(20))
+            .AddHttpMessageHandler(provider => provider.GetService<LyAdminRequestDelegatingHandler>());
+            #endregion
         }
 
 
@@ -109,7 +130,7 @@ namespace Ly.Admin.Web
             #region 身份认证需要用到
             builder.RegisterType<LyAdminLoginHandler>().As<ILoginHandler>().SingleInstance();
             builder.RegisterType<LoginInfo>().As<ILoginInfo>().SingleInstance();
-            builder.RegisterType<LyAdminJwtSecurityTokenHandler>().InstancePerLifetimeScope(); 
+            builder.RegisterType<LyAdminJwtSecurityTokenHandler>().InstancePerLifetimeScope();
             #endregion
         }
         #endregion

@@ -13,10 +13,10 @@ namespace Ly.Admin.Web.Controllers
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
-        private readonly AuthServiceClient _authServiceClient;
-        private readonly AccountServiceClient _accountServiceClient;
+        private readonly IAuthServiceClient _authServiceClient;
+        private readonly IAccountServiceClient _accountServiceClient;
 
-        public AccountController(ILogger<AccountController> logger, AuthServiceClient authServiceClient, AccountServiceClient accountServiceClient)
+        public AccountController(ILogger<AccountController> logger, IAuthServiceClient authServiceClient, IAccountServiceClient accountServiceClient)
         {
             _logger = logger;
             _authServiceClient = authServiceClient;

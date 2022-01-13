@@ -8,9 +8,9 @@ namespace Ly.Admin.Web.Controllers
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly WeatherForecastServiceClient _weatherForecastServiceClient;
+        private readonly IWeatherForecastServiceClient _weatherForecastServiceClient;
 
-        public HomeController(ILogger<HomeController> logger, WeatherForecastServiceClient weatherForecastServiceClient)
+        public HomeController(ILogger<HomeController> logger, IWeatherForecastServiceClient weatherForecastServiceClient)
         {
             _logger = logger;
             _weatherForecastServiceClient = weatherForecastServiceClient;
