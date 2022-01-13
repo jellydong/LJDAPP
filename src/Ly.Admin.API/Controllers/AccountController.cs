@@ -10,7 +10,7 @@ namespace Ly.Admin.API.Controllers
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
-        [HttpGet("PermissionMenu")] 
+        [HttpGet("PermissionMenu")]
         public async Task<ResponseResult> PermissionMenu()
         {
 
@@ -32,7 +32,16 @@ namespace Ly.Admin.API.Controllers
                         Icon = "layui-icon layui-icon-console",
                         Type = 1,
                         OpenType = "_iframe",
-                        Href = "view/console/console1.html",
+                        Href = "/lib/pear-admin-layui/view/console/console1.html",
+                    },
+                    new PermissionMenuResource()
+                    {
+                        Id = 104,
+                        Title = "数据分析",
+                        Icon = "layui-icon layui-icon-console",
+                        Type = 1,
+                        OpenType = "_iframe",
+                        Href = "/lib/pear-admin-layui/view/console/console2.html",
                     },
                     new PermissionMenuResource()
                     {
@@ -78,7 +87,7 @@ namespace Ly.Admin.API.Controllers
                                 Icon = "layui-icon layui-icon-face-smile",
                                 Type = 1,
                                 OpenType = "_iframe",
-                                Href = "view/document/button.html",
+                                Href = "/lib/pear-admin-layui/view/document/button.html",
                             },
                             new PermissionMenuResource()
                             {
@@ -87,7 +96,7 @@ namespace Ly.Admin.API.Controllers
                                 Icon = "layui-icon layui-icon-face-cry",
                                 Type = 1,
                                 OpenType = "_iframe",
-                                Href = "view/document/form.html",
+                                Href = "/lib/pear-admin-layui/view/document/form.html",
                             }
                         }
                     },
@@ -128,7 +137,7 @@ namespace Ly.Admin.API.Controllers
                         Icon = "layui-icon layui-icon-face-smile",
                         Type = 1,
                         OpenType = "_iframe",
-                        Href = "view/system/user.html",
+                        Href = "/lib/pear-admin-layui/view/system/user.html",
                     }
                 }
             });
