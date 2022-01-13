@@ -2,9 +2,9 @@
  
 
 ### 写在前面
-原项目https://github.com/jellydong/LJDAPP升级.NET 6版本
+原项目https://github.com/jellyct/LJDAPP升级.NET 6版本
 > Demo地址：暂无
-> 源代码地址：https://github.com/jellydong/LJDAPP
+> 源代码地址：https://github.com/jellyct/LJDAPP
 > 老版本在old分支，新版本为master分支
  
 ### 开发工具
