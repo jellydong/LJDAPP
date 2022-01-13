@@ -38,15 +38,19 @@
 
 /** Button 主题 */
 .pear-btn-primary {
+	border: #2D8CF0;
 	background-color: #2D8CF0 !important;
 }
 .pear-btn-danger {
+	border: #f56c6c;
 	background-color: #f56c6c !important;
 }
 .pear-btn-warming {
+	border: #f6ad55;
 	background-color: #f6ad55 !important;
 }
 .pear-btn-success {
+	border: #36b368;
 	background-color: #36b368 !important;
 }
 
@@ -55,6 +59,7 @@
 }
 
 .pear-btn-primary[plain] {
+	border: #409eff !important;
 	color: #409eff !important;
 	background: #ecf5ff 10% !important;
 }
@@ -65,6 +70,7 @@
 }
 
 .pear-btn-success[plain] {
+	border: #36b368 !important;
 	color: #36b368 !important;
 	background: #f0f9eb !important;
 }
@@ -75,6 +81,7 @@
 }
 
 .pear-btn-warming[plain] {
+	border: #e6a23c !important;
 	color: #e6a23c !important;
 	background: #fdf6ec !important;
 }
@@ -85,6 +92,7 @@
 }
 
 .pear-btn-danger[plain] {
+	border: #f56c6c !important;
 	color: #f56c6c !important;
 	background: #fef0f0 !important;
 }

@@ -24,6 +24,7 @@
 
 .layui-table .layui-laypage .layui-laypage-curr .layui-laypage-em {
 	border-radius: 50px !important;
+	border-radius: 4px!important;
 	background-color: #5FB878 !important;
 }
 

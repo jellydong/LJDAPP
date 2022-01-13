@@ -32,6 +32,13 @@
 			"type": 1,
 			"openType": "_iframe",
 			"href": "view/system/theme.html"
+		}, {
+			"id": 16,
+			"title": "酸爽翻倍",
+			"icon": "layui-icon layui-icon-console",
+			"type": 1,
+			"openType": "_iframe",
+			"href": "view/document/core.html"
 		}]
 	},
 	{

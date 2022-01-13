@@ -5,7 +5,7 @@ window.rootPath = (function(src) {
 
 layui.config({
 	base: rootPath + "module/",
-	version: "3.9.0"
+	version: "3.9.3"
 }).extend({
 	admin: "admin", 	// 框架布局组件
 	menu: "menu",		// 数据菜单组件
@@ -23,7 +23,7 @@ layui.config({
 	treetable:"treetable",   // 树状表格
 	dtree:"dtree",			// 树结构
 	tinymce:"tinymce/tinymce", // 编辑器
-	area:"area",			// 省市级联
+	area:"area",			// 省市级联  
 	count:"count",			// 数字滚动组件
 	topBar: "topBar",		// 置顶组件
 	button: "button",		// 加载按钮
