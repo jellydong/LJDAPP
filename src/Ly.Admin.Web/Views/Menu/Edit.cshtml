@@ -1,0 +1,210 @@
+﻿@using Ly.Admin.Util.Enum
+@model Ly.Admin.Resources.MenuResource
+@{
+    ViewData["Title"] = "菜单编辑";
+}
+
+<div class="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="layui-form-item  layui-row layui-col-space10">
+                <div class="layui-col-sm12">
+                    <label class="layui-form-label">父级</label>
+                    <div class="layui-input-block">
+                        <ul id="SelectParent" name="ParentId" class="dtree" data-id="-1"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item  layui-row layui-col-space10">
+                <div class="layui-col-sm12">
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Name" autocomplete="off" placeholder="名称" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item  layui-row layui-col-space10" id="PermissionCodeItem">
+                <div class="layui-col-sm12">
+                    <label class="layui-form-label">权限码</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="PermissionCode" autocomplete="off" placeholder="权限码" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item  layui-row layui-col-space10">
+                <div class="layui-col-sm12">
+                    <label class="layui-form-label">菜单类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" lay-filter="MenuType" name="MenuType" value="@MenuTypeEnum.Directory" title="目录" @(Model.MenuType==MenuTypeEnum.Directory?"checked":"")>
+                        <input type="radio" lay-filter="MenuType" name="MenuType" value="@MenuTypeEnum.Menu" title="页面" @(Model.MenuType==MenuTypeEnum.Menu?"checked":"")>
+                        <input type="radio" lay-filter="MenuType" name="MenuType" value="@MenuTypeEnum.Button" title="功能(按钮)" @(Model.MenuType==MenuTypeEnum.Button?"checked":"")>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item  layui-row layui-col-space10" id="UrlItem">
+                <div class="layui-col-sm12">
+                    <label class="layui-form-label">菜单链接</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Url" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item  layui-row layui-col-space10" id="OpenTypeItem">
+                <div class="layui-col-sm12">
+                    <label class="layui-form-label">打开方式</label>
+                    <div class="layui-input-block">
+                        <select name="OpenType" id="OpenType">
+                            <option value=""></option>
+                            <option value="@MenuOpenTypeEnum.Iframe">Iframe</option>
+                            <option value="@MenuOpenTypeEnum.Blank">Blank</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item  layui-row layui-col-space10">
+                <div class="layui-col-sm12">
+                    <label class="layui-form-label">图标</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="Icon" name="Icon" lay-filter="icon" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item  layui-row layui-col-space10">
+                <div class="layui-col-sm6">
+                    <label class="layui-form-label">是否显示</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="IsDisplay" lay-skin="switch" value="@IsEnum.Yes" lay-text="是|否" @(Model.IsDisplay==IsEnum.Yes?"checked":"")>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm6">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="Status" lay-skin="switch" value="@StatusEnum.Yes" lay-text="启用|禁用" @(Model.Status==StatusEnum.Yes?"checked":"")>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item  layui-row layui-col-space10">
+                <div class="layui-col-sm12">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sort" autocomplete="off" placeholder="排序" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit lay-filter="form-submit" id="form-submit">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="submit" class="pear-btn pear-btn-sm" lay-submit lay-filter="form-reset" id="form-reset">
+                <i class="layui-icon layui-icon-close"></i>
+                取消
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+<script>
+    layui.use(['form', 'jquery', 'iconPicker', 'dtree'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let iconPicker = layui.iconPicker;
+        let dtree = layui.dtree;
+        dtree.renderSelect({
+            elem: "#SelectParent",
+            url: "@Url.Action("SelectParent", "Menu")",
+            method: 'get',
+            selectInputName: { nodeId: "ParentId", context: "ParentName"},
+            skin: "layui",
+            dataStyle: "layuiStyle",  //使用layui风格的数据格式
+            dataFormat: "list",  //配置data的风格为list
+            response: { message: "msg", statusCode: 0,parentId: "ParentId", title: "Name" ,treeId: "Id"},
+            selectInitVal: "@Model.ParentId"
+        });
+        form.on("radio(MenuType)", function () {
+            if (this.value === '@MenuTypeEnum.Directory') {
+                $("#UrlItem").hide();
+                $("#PermissionCodeItem").hide();
+                $("#OpenTypeItem").hide();
+                $("#Url").val("");
+                $("#PermissionCode").val("");
+                $("#OpenType").val("");
+            } else if (this.value === '@MenuTypeEnum.Menu') {
+                $("#UrlItem").show();
+                $("#PermissionCodeItem").show();
+                $("#OpenTypeItem").show();
+                $("#Url").val("");
+                $("#PermissionCode").val("");
+                $("#OpenType").val("");
+            } else if (this.value === '@MenuTypeEnum.Button') {
+                $("#UrlItem").hide();
+                $("#PermissionCodeItem").show();
+                $("#OpenTypeItem").hide();
+                $("#Url").val("");
+                $("#PermissionCode").val("");
+                $("#OpenType").val("");
+            }
+        });
+
+        iconPicker.render({
+            // 选择器，推荐使用input
+            elem: '#Icon',
+            // 数据类型：fontClass/unicode，推荐使用fontClass
+            type: 'fontClass',
+            // 是否开启搜索：true/false，默认true
+            search: true,
+            // 是否开启分页：true/false，默认true
+            page: false,
+            // 每页显示数量，默认12
+            limit: 15,
+            // 每个图标格子的宽度：'43px'或'20%'
+            cellWidth: '43px',
+            // 点击回调
+            click: function (data) {
+                //console.log(data);
+            },
+            // 渲染成功后的回调
+            success: function (d) {
+                //console.log(d);
+            }
+        });
+
+        //监听提交
+        form.on('submit(form-submit)',
+            function (data) {
+                debugger;
+                let field = data.field; //获取提交的字段
+                let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的
+                $.ajax({
+                    url: '@Url.Action("Edit","Menu")',
+                    type: 'POST',
+                    data: field,
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.Success) {
+                            parent.layui.treeGrid.reload('table-list'); //重载表格
+                            parent.layer.close(index); //再执行关闭
+                        } else {
+                            layer.msg(res.Message, { icon: 5 });
+                        }
+                    }
+                });
+            });
+        //监听取消
+        form.on('submit(form-reset)',
+            function (data) {
+                let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的
+                parent.layer.close(index); //再执行关闭
+            });
+
+    });
+
+</script>
+}
+

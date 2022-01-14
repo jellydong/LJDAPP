@@ -69,6 +69,16 @@ namespace Ly.Admin.Repositories
             }
         }
 
+
+        public T? GetEntity(int id)
+        {
+            return _lyAdminDbContext.Set<T>().Find(id);
+        }
+        public T? GetEntity(Expression<Func<T, bool>> whereLambda)
+        {
+            return _lyAdminDbContext.Set<T>().Where(whereLambda).FirstOrDefault();
+        }
+
         public IQueryable<T> GetList()
         {
             return _lyAdminDbContext.Set<T>();

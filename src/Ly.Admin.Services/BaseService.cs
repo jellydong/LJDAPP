@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Ly.Admin.IRepositories; 
+using Ly.Admin.IRepositories;
 using Ly.Admin.Model;
 
 namespace Ly.Admin.Services
@@ -12,7 +12,7 @@ namespace Ly.Admin.Services
         private readonly IBaseRepository<T> _iBaseRepository;
         private readonly IUnitOfWork _iUnitOfWork;
 
-        public BaseService(IBaseRepository<T> iBaseRepository,IUnitOfWork iUnitOfWork)
+        public BaseService(IBaseRepository<T> iBaseRepository, IUnitOfWork iUnitOfWork)
         {
             _iBaseRepository = iBaseRepository ?? throw new ArgumentNullException(nameof(iBaseRepository));
             _iUnitOfWork = iUnitOfWork ?? throw new ArgumentNullException(nameof(iUnitOfWork));
@@ -47,7 +47,14 @@ namespace Ly.Admin.Services
         {
             _iBaseRepository.Delete(whereLambda);
         }
-
+        public T? GetEntity(int id)
+        {
+            return _iBaseRepository.GetEntity(id);
+        }
+        public T? GetEntity(Expression<Func<T, bool>> whereLambda)
+        {
+            return _iBaseRepository.GetEntity(whereLambda);
+        }
         public IQueryable<T> GetList()
         {
             return _iBaseRepository.GetList();

@@ -20,6 +20,7 @@ layui.config({
 	step:"step",		// 分布表单组件
 	tag:"tag",			// 多标签页组件
 	popup:"popup",      // 弹层封装
+	iconPicker:"iconPicker", // 图表选择
 	treetable:"treetable",   // 树状表格
 	dtree:"dtree",			// 树结构
 	tinymce:"tinymce/tinymce", // 编辑器

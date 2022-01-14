@@ -1,0 +1,199 @@
+﻿
+@{
+    Layout = "_Layout";
+    ViewData["title"] = "菜单管理";
+}
+
+
+<div class="pear-container">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">用户名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="realName" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">性别</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="realName" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">邮箱</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="realName" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="table-search">
+                            <i class="layui-icon layui-icon-search"></i>
+                            查询
+                        </button>
+                        <button type="reset" class="pear-btn pear-btn-md">
+                            <i class="layui-icon layui-icon-refresh"></i>
+                            重置
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="top-button">
+                <button class="pear-btn pear-btn-primary pear-btn-md" data-type="add">
+                    <i class="layui-icon layui-icon-add-1"></i>
+                    新增
+                </button>
+                <button class="pear-btn pear-btn-warming pear-btn-md" data-type="expandOrfoldAll">
+                    <i class="layui-icon layui-icon-spread-left"></i>
+                    展开/折叠
+                </button>
+            </div>
+            <table id="table-list" lay-filter="table-list"></table>
+        </div>
+    </div>
+</div> 
+
+<script type="text/html" id="operationTpl">
+    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
+    <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="remove"><i class="layui-icon layui-icon-delete"></i></button>
+</script>
+
+<script type="text/html" id="power-type">
+    {{#if (d.powerType == '0') { }}
+    <span>目录</span>
+    {{# }else if(d.powerType == '1'){ }}
+    <span>菜单</span>
+    {{# }else if(d.powerType == '2'){ }}
+    <span>按钮</span>
+    {{# } }}
+</script>
+
+<script type="text/html" id="power-enable">
+    <input type="checkbox" name="enable" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="user-enable" checked="{{ d.id == 10003 ? 'true' : 'false' }}">
+</script>
+
+<script type="text/html" id="icon">
+    <i class="layui-icon {{d.icon}}"></i>
+</script>
+
+@section Scripts
+{
+
+    <script type="text/javascript">
+        layui.use(['form', 'jquery', 'treeGrid'], function () {
+            let form = layui.form
+                , treeGrid = layui.treeGrid;
+            let tableId = 'table-list';
+            //Table定义
+            treeGrid.render({
+                id: tableId,
+                elem: '#' + tableId,
+                url: '@Url.Content("~/lib/pear-admin-layui/admin/data/power.json")',
+                cellMinWidth: 100,
+                idField: 'powerId' //必須字段
+                , treeId: 'powerId' //树形id字段名称
+                , treeUpId: 'parentId' //树形父id字段名称
+                , treeShowName: 'powerName' //以树形式显示的字段
+                , isFilter: false
+                , iconOpen: false //是否显示图标【默认显示】
+                , isOpenDefault: true //节点默认是展开还是折叠【默认展开】
+                , loading: true,
+                method: 'get',
+                isPage: false,
+                height: '100%',
+                skin:'line',
+                cols: [
+                    [
+                        { type: 'checkbox' },
+                        { field: 'powerName', minWidth: 200, title: '权限名称' },
+                        { field: 'icon', title: '图标', templet: '#icon' },
+                        { field: 'powerType', title: '权限类型', templet: '#power-type' },
+                        { field: 'enable', title: '是否可用', templet: '#power-enable' },
+                        { field: 'sort', title: '排序' },
+                        { title: '操作', templet: '#operationTpl', width: 150, align: 'center' }
+                    ] ],
+                parseData: function(res) { //数据加载后回调 
+                    return res;
+                }
+            });
+
+            //监听搜索
+            form.on('submit(table-search)', function (data) {
+                var field = data.field;
+
+                //执行重载
+                treeGrid.reload(tableId, {
+                    where: field
+                });
+            });
+
+            //监听工具条事件
+            treeGrid.on('tool(' + tableId+')',
+                function (obj) {
+                    debugger
+                    if (obj.event === 'remove') {
+                        layer.confirm('确定要删除该权限',
+                            { icon: 3, title: '提示' },
+                            function(index) {
+                                layer.close(index);
+                                let loading = layer.load();
+                                $.ajax({
+                                    url: "remove/" + obj.data['powerId'],
+                                    dataType: 'json',
+                                    type: 'delete',
+                                    success: function(result) {
+                                        layer.close(loading);
+                                        if (result.success) {
+                                            layer.msg(result.msg,
+                                                { icon: 1, time: 1000 },
+                                                function() {
+                                                    obj.del();
+                                                });
+                                        } else {
+                                            layer.msg(result.msg, { icon: 2, time: 1000 });
+                                        }
+                                    }
+                                })
+                            });
+                    } else if (obj.event === 'edit') {
+                        layer.open({
+                            type: 2,
+                            title: '修改',
+                            shade: 0.1,
+                            area: ['450px', '500px'],
+                            content: 'edit.html'
+                        });
+                    }
+                }); 
+
+            var $ = layui.$, active = {
+                 add: function(){ 
+                     layer.open({
+                         type: 2
+                         , title: '新增'
+                         , content: '@Url.Action("Edit","Menu")'
+                         , maxmin: true
+                         , area: ['60%', '85%']
+                         , moveOut :true
+                     });
+                 }
+                 , expandOrfoldAll: function(){
+                     var treeData=treeGrid.getDataTreeList(tableId);
+                    treeGrid.treeOpenAll(tableId, !treeData[0][treeGrid.config.cols.isOpen]);
+                 }
+             };
+            $('.layui-card-body .top-button .pear-btn').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+        })
+    </script>
+
+}

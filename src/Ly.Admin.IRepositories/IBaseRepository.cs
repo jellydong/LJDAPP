@@ -53,6 +53,18 @@ namespace Ly.Admin.IRepositories
         void Delete(Expression<Func<T, bool>> whereLambda);
 
         /// <summary>
+        /// 搜索单个数据
+        /// </summary>
+        /// <returns></returns>
+        T? GetEntity(int id);
+
+        /// <summary>
+        /// 搜索单个数据
+        /// </summary>
+        /// <returns></returns>
+        T? GetEntity(Expression<Func<T, bool>> whereLambda);
+
+        /// <summary>
         /// 搜索所有数据
         /// </summary>
         /// <returns></returns>

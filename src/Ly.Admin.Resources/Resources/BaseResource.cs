@@ -12,6 +12,6 @@ namespace Ly.Admin.Resources
         /// 最后修改时间
         /// </summary>
 
-        public DateTime LastModified { get; set; }
+        public DateTime? LastModified { get; set; }
     }
 }

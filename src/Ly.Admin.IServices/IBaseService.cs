@@ -47,6 +47,18 @@ namespace Ly.Admin.IServices
         /// <typeparam name="T"></typeparam>
         /// <param name="whereLambda">条件</param>
         void Delete(Expression<Func<T, bool>> whereLambda);
+        
+        /// <summary>
+        /// 搜索单个数据
+        /// </summary>
+        /// <returns></returns>
+        T? GetEntity(int id);
+
+        /// <summary>
+        /// 搜索单个数据
+        /// </summary>
+        /// <returns></returns>
+        T? GetEntity(Expression<Func<T, bool>> whereLambda);
 
         /// <summary>
         /// 搜索所有数据
