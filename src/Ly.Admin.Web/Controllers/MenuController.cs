@@ -23,7 +23,7 @@ namespace Ly.Admin.Web.Controllers
         {
             var menu = await _menuServiceClient.GetById(id, parentId);
 
-            return View(menu.Data);
+            return View(menu.Result);
         }
 
         [HttpGet]
@@ -32,7 +32,7 @@ namespace Ly.Admin.Web.Controllers
             var menuList = await _menuServiceClient.GetParentTree();
             return await Task.Run(() =>
             {
-                return Json(new { code = 0, msg = "成功", data = menuList.Data });
+                return Json(new { code = 0, msg = "成功", data = menuList.Result });
             });
         }
     }

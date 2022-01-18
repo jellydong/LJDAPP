@@ -4,6 +4,7 @@ using Ly.Admin.Auth;
 using Ly.Admin.IServices;
 using Ly.Admin.Resources;
 using Ly.Admin.Services;
+using Ly.Admin.Util.Enum;
 using Ly.Admin.Util.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -121,29 +122,6 @@ namespace Ly.Admin.API.Controllers
         }
 
         /// <summary>
-        /// 登录处理
-        /// </summary>
-        private ResponseResult LoginHandle(ResponseResult responseResult)
-        {
-            if (responseResult.Success)
-            {
-                var model = responseResult as ResponseResult<LoginResultModel>;
-
-                var account = model.Data.UserInfo;
-                var loginInfo = model.Data.AuthResource;
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsName.AccountId, account.Id.ToString()),
-                    new Claim(ClaimsName.AccountName, account.RealName),
-                    new Claim(ClaimsName.LoginTime, loginInfo.LoginTime.ToString())
-                };
-                var jwtmodel = _loginHandler.Hand(claims, loginInfo.RefreshToken, account.RealName);
-                return new ResponseResult<JwtTokenModel>(true, "", jwtmodel);
-            }
-            return new ResponseResult(false, responseResult.Message);
-        }
-
-        /// <summary>
         /// 刷新令牌
         /// </summary>
         /// <param name="refreshToken"></param>
@@ -166,14 +144,37 @@ namespace Ly.Admin.API.Controllers
         public async Task<ResponseResult> AuthInfo()
         {
             return await _userService.GetAuthInfo(_loginInfo.AccountId, _loginInfo.Platform);
-        }
-
-
+        } 
 
         [HttpGet("HelloWorld")]
         public string HelloWorld()
         {
             return _userService.HelloWorld();
         }
+        
+
+        /// <summary>
+        /// 登录处理
+        /// </summary>
+        private ResponseResult LoginHandle(ResponseResult responseResult)
+        {
+            if (responseResult.Code.Equals(ResultEnum.SUCCESS))
+            {
+                var model = responseResult as ResponseResult<LoginResultModel>;
+
+                var account = model.Result.UserInfo;
+                var loginInfo = model.Result.AuthResource;
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimsName.AccountId, account.Id.ToString()),
+                    new Claim(ClaimsName.AccountName, account.RealName),
+                    new Claim(ClaimsName.LoginTime, loginInfo.LoginTime.ToString())
+                };
+                var jwtmodel = _loginHandler.Hand(claims, loginInfo.RefreshToken, account.RealName);
+                return new ResponseResult<JwtTokenModel>(ResultEnum.SUCCESS, "", jwtmodel);
+            }
+            return new ResponseResult(ResultEnum.ERROR, responseResult.Message);
+        }
+
     }
 }

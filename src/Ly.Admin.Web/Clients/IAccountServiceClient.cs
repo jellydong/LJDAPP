@@ -7,6 +7,6 @@ namespace Ly.Admin.Web.Clients
     public interface IAccountServiceClient
     {
         [Get("/Account/PermissionMenu")]
-        Task<ResponseResult<List<PermissionMenuResource>>> PermissionMenu();
+        Task<ResponseResult<List<PermissionMenuResourcePearAdmin>>> PermissionMenu();
     }
 }

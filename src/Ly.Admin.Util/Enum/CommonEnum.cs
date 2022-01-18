@@ -76,7 +76,7 @@ namespace Ly.Admin.Util.Enum
         /// 女
         /// </summary>
         [Description("女")]
-        Female = 1
+        Female = 2
     }
 
 }

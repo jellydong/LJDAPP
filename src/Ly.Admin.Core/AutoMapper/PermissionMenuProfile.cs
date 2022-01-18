@@ -9,7 +9,7 @@ namespace Ly.Admin.Core.AutoMapper
     {
         public PermissionMenuProfile()
         {
-            CreateMap<SysMenu, PermissionMenuResource>()
+            CreateMap<SysMenu, PermissionMenuResourcePearAdmin>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.MenuName))
                 .ForMember(dest => dest.Icon, opt => opt.MapFrom(src => src.MenuIcon))

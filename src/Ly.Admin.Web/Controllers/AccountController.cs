@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ly.Admin.Resources;
+using Ly.Admin.Util.Enum;
 using Ly.Admin.Util.Model;
 using Ly.Admin.Web.Clients;
 using Ly.Admin.Web.Config.Attribute;
@@ -44,10 +45,10 @@ namespace Ly.Admin.Web.Controllers
                 };
 
                 var result = await _authServiceClient.Login(loginInfo);
-                if (result.Success)
+                if (result.Code.Equals(ResultEnum.SUCCESS))
                 {
                     ////登陆
-                    CurrentUserManage.Login(result.Data);
+                    CurrentUserManage.Login(result.Result);
                 }
                 else
                 {
@@ -55,7 +56,7 @@ namespace Ly.Admin.Web.Controllers
                 }
 
                 responseResult.Message = "登陆成功！";
-                responseResult.Success = true;
+                responseResult.Code = ResultEnum.SUCCESS;
             }
             catch (Exception ex)
             {
@@ -69,9 +70,9 @@ namespace Ly.Admin.Web.Controllers
         public async Task<IActionResult> PermissionMenu()
         {
             var permissionMenu = await _accountServiceClient.PermissionMenu();
-            if (permissionMenu.Success)
-            { 
-                return Json(permissionMenu.Data);
+            if (permissionMenu.Code.Equals(ResultEnum.SUCCESS))
+            {
+                return Json(permissionMenu.Result);
             }
             return Json(permissionMenu.Message);
         }

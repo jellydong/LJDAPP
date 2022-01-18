@@ -30,7 +30,7 @@ namespace Ly.Admin.API.Controllers
         {
             var menu = _mapper.Map<MenuResource>(_menuService.GetEntity(id)) ?? new MenuResource() { ParentId = parentId ?? 0, MenuType = MenuTypeEnum.Menu, IsDisplay = IsEnum.Yes, Status = StatusEnum.Yes };
 
-            return Task.FromResult(new ResponseResult<MenuResource>(true, menu));
+            return Task.FromResult(new ResponseResult<MenuResource>(ResultEnum.SUCCESS, menu));
         }
         [HttpGet("GetParentTree")]
         public Task<ResponseResult<List<MenuResource>>> GetParentTree()
@@ -43,7 +43,7 @@ namespace Ly.Admin.API.Controllers
                 ParentId = -1
             });
 
-            return Task.FromResult(new ResponseResult<List<MenuResource>>(true, menuList));
+            return Task.FromResult(new ResponseResult<List<MenuResource>>(ResultEnum.SUCCESS, menuList));
         }
     }
 }

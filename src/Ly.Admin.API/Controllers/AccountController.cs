@@ -1,4 +1,6 @@
-﻿using Ly.Admin.Resources;
+﻿using Ly.Admin.Auth;
+using Ly.Admin.Resources;
+using Ly.Admin.Util.Enum;
 using Ly.Admin.Util.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,22 +12,83 @@ namespace Ly.Admin.API.Controllers
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
+        private readonly ILogger<AccountController> _logger;
+        private readonly ILoginInfo _loginInfo;
+
+        public AccountController(ILogger<AccountController> logger, ILoginInfo loginInfo)
+        {
+            _logger = logger;
+            _loginInfo = loginInfo;
+        }
         [HttpGet("PermissionMenu")]
         public async Task<ResponseResult> PermissionMenu()
         {
+            List<PermissionMenuResource> permissionMenuResources = new List<PermissionMenuResource>();
+            var dashboardRoute = new PermissionMenuResource
+            {
+                Path = "/dashboard",
+                Name = "Dashboard",
+                Component = "LAYOUT",
+                Redirect = "/dashboard/analysis",
+                Meta = new VueRouterMetaResource
+                {
+                    Title = "routes.dashboard.dashboard",
+                    Icon = "bx:bx-home"
+                },
+                Children = new List<PermissionMenuResource>
+                {
+                    new PermissionMenuResource
+                    {
+                        Path = "analysis",
+                        Name = "Analysis",
+                        Component = "/dashboard/analysis/index",
+                        Meta = new VueRouterMetaResource
+                        {
+                            Title = "routes.dashboard.analysis",
+                            CurrentActiveMenu = "/dashboard",
+                            Icon = "bx:bx-home"
+                        }
+                    }, 
+                    new PermissionMenuResource
+                    {
+                        Path = "workbench",
+                        Name = "Workbench",
+                        Component = "/dashboard/workbench/index",
+                        Meta = new VueRouterMetaResource
+                        {
+                            Title = "routes.dashboard.workbench",
+                            CurrentActiveMenu = "/dashboard",
+                            Icon = "bx:bx-home"
+                        }
+                    }
+                }
+            };
 
 
-            List<PermissionMenuResource> permissionMenus = new List<PermissionMenuResource>();
+            permissionMenuResources.Add(dashboardRoute);
 
-            permissionMenus.Add(new PermissionMenuResource()
+            return await Task.FromResult(new ResponseResult<List<PermissionMenuResource>>(ResultEnum.SUCCESS, permissionMenuResources));
+        }
+        [HttpGet("PermCode")]
+        public async Task<ResponseResult> GetPermCode()
+        {
+            return await Task.FromResult(new ResponseResult<List<string>>(true,new List<string> { "1000", "3000", "5000" }));
+        }
+
+        [HttpGet("PermissionMenuPearAdmin")]
+        public async Task<ResponseResult> PermissionMenuPearAdmin()
+        {
+            List<PermissionMenuResourcePearAdmin> permissionMenus = new List<PermissionMenuResourcePearAdmin>();
+
+            permissionMenus.Add(new PermissionMenuResourcePearAdmin()
             {
                 Id = 1,
                 Title = "工作空间",
                 Icon = "layui-icon layui-icon-console",
                 Type = 0,
-                Children = new List<PermissionMenuResource>()
+                Children = new List<PermissionMenuResourcePearAdmin>()
                 {
-                    new PermissionMenuResource()
+                    new PermissionMenuResourcePearAdmin()
                     {
                         Id = 101,
                         Title = "控制后台",
@@ -34,7 +97,7 @@ namespace Ly.Admin.API.Controllers
                         OpenType = "_iframe",
                         Href = "/lib/pear-admin-layui/view/console/console1.html",
                     },
-                    new PermissionMenuResource()
+                    new PermissionMenuResourcePearAdmin()
                     {
                         Id = 104,
                         Title = "数据分析",
@@ -43,7 +106,7 @@ namespace Ly.Admin.API.Controllers
                         OpenType = "_iframe",
                         Href = "/lib/pear-admin-layui/view/console/console2.html",
                     },
-                    new PermissionMenuResource()
+                    new PermissionMenuResourcePearAdmin()
                     {
                         Id = 102,
                         Title = "百度一下",
@@ -52,7 +115,7 @@ namespace Ly.Admin.API.Controllers
                         OpenType = "_iframe",
                         Href = "http://www.baidu.com",
                     },
-                    new PermissionMenuResource()
+                    new PermissionMenuResourcePearAdmin()
                     {
                         Id = 103,
                         Title = "Hello World",
@@ -64,23 +127,23 @@ namespace Ly.Admin.API.Controllers
                 }
             });
 
-            permissionMenus.Add(new PermissionMenuResource()
+            permissionMenus.Add(new PermissionMenuResourcePearAdmin()
             {
                 Id = 2,
                 Title = "常用组件",
                 Icon = "layui-icon layui-icon-component",
                 Type = 0,
-                Children = new List<PermissionMenuResource>()
+                Children = new List<PermissionMenuResourcePearAdmin>()
                 {
-                    new PermissionMenuResource()
+                    new PermissionMenuResourcePearAdmin()
                     {
                         Id = 201,
                         Title = "基础组件",
                         Icon = "layui-icon layui-icon-console",
                         Type = 0,
-                        Children = new List<PermissionMenuResource>()
+                        Children = new List<PermissionMenuResourcePearAdmin>()
                         {
-                            new PermissionMenuResource()
+                            new PermissionMenuResourcePearAdmin()
                             {
                                 Id = 2011,
                                 Title = "功能按钮",
@@ -89,7 +152,7 @@ namespace Ly.Admin.API.Controllers
                                 OpenType = "_iframe",
                                 Href = "/lib/pear-admin-layui/view/document/button.html",
                             },
-                            new PermissionMenuResource()
+                            new PermissionMenuResourcePearAdmin()
                             {
                                 Id = 2012,
                                 Title = "表单集合",
@@ -100,7 +163,7 @@ namespace Ly.Admin.API.Controllers
                             }
                         }
                     },
-                    new PermissionMenuResource()
+                    new PermissionMenuResourcePearAdmin()
                     {
                         Id = 202,
                         Title = "列表测试",
@@ -112,16 +175,16 @@ namespace Ly.Admin.API.Controllers
                 }
             });
 
-            permissionMenus.Add(new PermissionMenuResource()
+            permissionMenus.Add(new PermissionMenuResourcePearAdmin()
             {
                 Id = 888,
                 Title = "系统管理",
                 Icon = "layui-icon layui-icon-set-fill",
                 Type = 0,
-                Children = new List<PermissionMenuResource>()
+                Children = new List<PermissionMenuResourcePearAdmin>()
                 {
 
-                    new PermissionMenuResource()
+                    new PermissionMenuResourcePearAdmin()
                     {
                         Id = 88801,
                         Title = "菜单管理",
@@ -130,7 +193,7 @@ namespace Ly.Admin.API.Controllers
                         OpenType = "_iframe",
                         Href = "Menu/Index",
                     },
-                    new PermissionMenuResource()
+                    new PermissionMenuResourcePearAdmin()
                     {
                         Id = 88802,
                         Title = "用户管理",
@@ -141,7 +204,7 @@ namespace Ly.Admin.API.Controllers
                     }
                 }
             });
-            return await Task.FromResult(new ResponseResult<List<PermissionMenuResource>>(true, permissionMenus));
+            return await Task.FromResult(new ResponseResult<List<PermissionMenuResourcePearAdmin>>(ResultEnum.SUCCESS, permissionMenus));
         }
     }
 }
