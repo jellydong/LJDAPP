@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace Ly.Admin.Data.EF.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,7 +20,7 @@ namespace Ly.Admin.Data.EF.Migrations
                     id = table.Column<int>(type: "int(11)", nullable: false, comment: "主键Id")
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     user_id = table.Column<int>(type: "int(11)", nullable: false),
-                    platform = table.Column<int>(type: "int(1)", nullable: false, defaultValue: -1, comment: "登录平台"),
+                    platform = table.Column<int>(type: "int(1)", nullable: false, defaultValue: 0, comment: "登录平台"),
                     refresh_token = table.Column<string>(type: "varchar(50)", nullable: false, comment: "刷新令牌")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     refresh_token_expired_time = table.Column<DateTime>(type: "datetime", nullable: false, comment: "刷新令牌过期时间"),

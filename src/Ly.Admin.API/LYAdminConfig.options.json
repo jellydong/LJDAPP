@@ -12,7 +12,7 @@
     "InitialPassword": "000000",
     "CacheType": {
       "DefaultCache": "SystemCache", //缓存类型
-      "RedisConfig": "localhost:6379"
+      "RedisConfig": ""
     },
     "DefaultAPPKeys": {
       "VerifyCode": "LYADMIN_VERIFYCODE", //验证码

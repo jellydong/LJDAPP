@@ -86,7 +86,7 @@ namespace Ly.Admin.Services
                 var sysAuthInfo = _authRepository.GetList(a => a.RefreshToken.Equals(refreshToken)).FirstOrDefault();
                 if (sysAuthInfo == null)
                 {
-                    return await Task.FromResult(new ResponseResult(false, "身份认证信息无效，请重新登录"));
+                    return await Task.FromResult(new ResponseResult(ResultEnum.TIMEOUT, "身份认证信息无效，请重新登录"));
                 }
                 authInfo = _mapper.Map<AuthResource>(sysAuthInfo);
                 //加入缓存
@@ -95,7 +95,7 @@ namespace Ly.Admin.Services
             }
             if (authInfo.RefreshTokenExpiredTime <= DateTime.Now)
             {
-                return await Task.FromResult(new ResponseResult(false, "身份认证信息过期，请重新登录"));
+                return await Task.FromResult(new ResponseResult(ResultEnum.TIMEOUT, "身份认证信息过期，请重新登录"));
             }
             var userInfo = _userRepository.GetList(u => u.Id.Equals(authInfo.UserId)).FirstOrDefault();
             if (userInfo == null)
@@ -126,7 +126,7 @@ namespace Ly.Admin.Services
                 var sysAuthInfo = _authRepository.GetList(a => a.UserId.Equals(accountId) && a.Platform.Equals(platformValue)).FirstOrDefault();
                 if (sysAuthInfo == null)
                 {
-                    return await Task.FromResult(new ResponseResult(false, "身份认证信息无效，请重新登录"));
+                    return await Task.FromResult(new ResponseResult(ResultEnum.TIMEOUT, "身份认证信息无效，请重新登录"));
                 }
                 authInfo = _mapper.Map<AuthResource>(sysAuthInfo);
                 //加入缓存
@@ -135,7 +135,7 @@ namespace Ly.Admin.Services
             }
             if (authInfo.RefreshTokenExpiredTime <= DateTime.Now)
             {
-                return await Task.FromResult(new ResponseResult(false, "身份认证信息过期，请重新登录"));
+                return await Task.FromResult(new ResponseResult(ResultEnum.TIMEOUT, "身份认证信息过期，请重新登录"));
             }
             var userInfo = _userRepository.GetList(u => u.Id.Equals(authInfo.UserId)).FirstOrDefault();
             if (userInfo == null)

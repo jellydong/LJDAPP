@@ -50,10 +50,10 @@ namespace Ly.Admin.Auth
         {
             get
             {
-                var pt = _contextAccessor?.HttpContext?.User?.FindFirst(ClaimsName.Platform);
-                if (pt != null && pt.Value.NotNull())
+                var ty = _contextAccessor?.HttpContext?.User?.FindFirst(ClaimsName.AccountType);
+                if (ty != null && ty.Value.NotNull())
                 {
-                    return pt.Value.ToInt();
+                    return ty.Value.ToInt();
                 }
 
                 return -1;
@@ -64,14 +64,14 @@ namespace Ly.Admin.Auth
         {
             get
             {
-                var ty = _contextAccessor?.HttpContext?.User?.FindFirst(ClaimsName.AccountType);
+                var pf = _contextAccessor?.HttpContext?.User?.FindFirst(ClaimsName.Platform);
 
-                if (ty != null && ty.Value.NotNull())
+                if (pf != null && pf.Value.NotNull())
                 {
-                    return ty.Value.ToInt();
+                    return pf.Value.ToInt();
                 }
 
-                return -1;
+                return 0;
             }
         }
 

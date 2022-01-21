@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace Ly.Admin.Data.EF.Migrations
 {
     [DbContext(typeof(LyAdminDbContext))]
@@ -14,8 +16,8 @@ namespace Ly.Admin.Data.EF.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.9");
+                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Ly.Admin.Model.Post", b =>
                 {
@@ -125,7 +127,7 @@ namespace Ly.Admin.Data.EF.Migrations
                     b.Property<int>("Platform")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int(1)")
-                        .HasDefaultValue(-1)
+                        .HasDefaultValue(0)
                         .HasColumnName("platform")
                         .HasComment("登录平台");
 
@@ -164,8 +166,7 @@ namespace Ly.Admin.Data.EF.Migrations
 
                     b.ToTable("sys_auth");
 
-                    b
-                        .HasComment("认证信息");
+                    b.HasComment("认证信息");
                 });
 
             modelBuilder.Entity("Ly.Admin.Model.SysMenu", b =>
@@ -272,181 +273,7 @@ namespace Ly.Admin.Data.EF.Migrations
 
                     b.ToTable("sys_menu");
 
-                    b
-                        .HasComment("菜单表");
-                });
-
-            modelBuilder.Entity("Ly.Admin.Model.SysRRoleMenu", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int(11)")
-                        .HasColumnName("id")
-                        .HasComment("主键Id");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("created_by")
-                        .HasComment("创建人");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("datetime")
-                        .HasColumnName("created_time")
-                        .HasComment("创建时间");
-
-                    b.Property<int>("DeleteFlag")
-                        .HasColumnType("int(1)")
-                        .HasColumnName("delete_flag")
-                        .HasComment("删除标识");
-
-                    b.Property<int>("MenuId")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("menu_id")
-                        .HasComment("菜单Id");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("role_id")
-                        .HasComment("角色Id");
-
-                    b.Property<int>("SortId")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("sort_id")
-                        .HasComment("排序");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("update_by")
-                        .HasComment("更新人");
-
-                    b.Property<DateTime?>("UpdatedTime")
-                        .HasColumnType("datetime")
-                        .HasColumnName("update_time")
-                        .HasComment("更新时间");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("sys_r_role_menu");
-
-                    b
-                        .HasComment("角色菜单对应关系");
-                });
-
-            modelBuilder.Entity("Ly.Admin.Model.SysRUserMenu", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int(11)")
-                        .HasColumnName("id")
-                        .HasComment("主键Id");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("created_by")
-                        .HasComment("创建人");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("datetime")
-                        .HasColumnName("created_time")
-                        .HasComment("创建时间");
-
-                    b.Property<int>("DeleteFlag")
-                        .HasColumnType("int(1)")
-                        .HasColumnName("delete_flag")
-                        .HasComment("删除标识");
-
-                    b.Property<int>("HavePermission")
-                        .HasColumnType("int(1)")
-                        .HasColumnName("have_permission")
-                        .HasComment("是否拥有权限");
-
-                    b.Property<int>("MenuId")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("menu_id")
-                        .HasComment("菜单Id");
-
-                    b.Property<int>("SortId")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("sort_id")
-                        .HasComment("排序");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("update_by")
-                        .HasComment("更新人");
-
-                    b.Property<DateTime?>("UpdatedTime")
-                        .HasColumnType("datetime")
-                        .HasColumnName("update_time")
-                        .HasComment("更新时间");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("user_id")
-                        .HasComment("用户Id");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("sys_r_user_menu");
-
-                    b
-                        .HasComment("用户菜单对应关系");
-                });
-
-            modelBuilder.Entity("Ly.Admin.Model.SysRUserRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int(11)")
-                        .HasColumnName("id")
-                        .HasComment("主键Id");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("created_by")
-                        .HasComment("创建人");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("datetime")
-                        .HasColumnName("created_time")
-                        .HasComment("创建时间");
-
-                    b.Property<int>("DeleteFlag")
-                        .HasColumnType("int(1)")
-                        .HasColumnName("delete_flag")
-                        .HasComment("删除标识");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("role_id")
-                        .HasComment("角色Id");
-
-                    b.Property<int>("SortId")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("sort_id")
-                        .HasComment("排序");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("update_by")
-                        .HasComment("更新人");
-
-                    b.Property<DateTime?>("UpdatedTime")
-                        .HasColumnType("datetime")
-                        .HasColumnName("update_time")
-                        .HasComment("更新时间");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("user_id")
-                        .HasComment("用户Id");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("sys_r_user_role");
-
-                    b
-                        .HasComment("用户角色对应关系");
+                    b.HasComment("菜单表");
                 });
 
             modelBuilder.Entity("Ly.Admin.Model.SysRole", b =>
@@ -514,8 +341,177 @@ namespace Ly.Admin.Data.EF.Migrations
 
                     b.ToTable("sys_role");
 
-                    b
-                        .HasComment("角色表");
+                    b.HasComment("角色表");
+                });
+
+            modelBuilder.Entity("Ly.Admin.Model.SysRRoleMenu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int(11)")
+                        .HasColumnName("id")
+                        .HasComment("主键Id");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("created_by")
+                        .HasComment("创建人");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime")
+                        .HasColumnName("created_time")
+                        .HasComment("创建时间");
+
+                    b.Property<int>("DeleteFlag")
+                        .HasColumnType("int(1)")
+                        .HasColumnName("delete_flag")
+                        .HasComment("删除标识");
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("menu_id")
+                        .HasComment("菜单Id");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("role_id")
+                        .HasComment("角色Id");
+
+                    b.Property<int>("SortId")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("sort_id")
+                        .HasComment("排序");
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("update_by")
+                        .HasComment("更新人");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime")
+                        .HasColumnName("update_time")
+                        .HasComment("更新时间");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("sys_r_role_menu");
+
+                    b.HasComment("角色菜单对应关系");
+                });
+
+            modelBuilder.Entity("Ly.Admin.Model.SysRUserMenu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int(11)")
+                        .HasColumnName("id")
+                        .HasComment("主键Id");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("created_by")
+                        .HasComment("创建人");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime")
+                        .HasColumnName("created_time")
+                        .HasComment("创建时间");
+
+                    b.Property<int>("DeleteFlag")
+                        .HasColumnType("int(1)")
+                        .HasColumnName("delete_flag")
+                        .HasComment("删除标识");
+
+                    b.Property<int>("HavePermission")
+                        .HasColumnType("int(1)")
+                        .HasColumnName("have_permission")
+                        .HasComment("是否拥有权限");
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("menu_id")
+                        .HasComment("菜单Id");
+
+                    b.Property<int>("SortId")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("sort_id")
+                        .HasComment("排序");
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("update_by")
+                        .HasComment("更新人");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime")
+                        .HasColumnName("update_time")
+                        .HasComment("更新时间");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("user_id")
+                        .HasComment("用户Id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("sys_r_user_menu");
+
+                    b.HasComment("用户菜单对应关系");
+                });
+
+            modelBuilder.Entity("Ly.Admin.Model.SysRUserRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int(11)")
+                        .HasColumnName("id")
+                        .HasComment("主键Id");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("created_by")
+                        .HasComment("创建人");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime")
+                        .HasColumnName("created_time")
+                        .HasComment("创建时间");
+
+                    b.Property<int>("DeleteFlag")
+                        .HasColumnType("int(1)")
+                        .HasColumnName("delete_flag")
+                        .HasComment("删除标识");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("role_id")
+                        .HasComment("角色Id");
+
+                    b.Property<int>("SortId")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("sort_id")
+                        .HasComment("排序");
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("update_by")
+                        .HasComment("更新人");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime")
+                        .HasColumnName("update_time")
+                        .HasComment("更新时间");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("user_id")
+                        .HasComment("用户Id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("sys_r_user_role");
+
+                    b.HasComment("用户角色对应关系");
                 });
 
             modelBuilder.Entity("Ly.Admin.Model.SysUser", b =>
@@ -596,8 +592,7 @@ namespace Ly.Admin.Data.EF.Migrations
 
                     b.ToTable("sys_user");
 
-                    b
-                        .HasComment("用户表");
+                    b.HasComment("用户表");
                 });
 #pragma warning restore 612, 618
         }

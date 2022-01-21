@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Ly.Admin.Util.Enum
 {
-    /// <summary>
+   /// <summary>
     /// 平台类型
     /// </summary>
-    public enum PlatformEnum
+    public enum AccountTypeEnum
     {
         [Description("未知")]
-        UnKnown,
+        UnKnown, 
         /// <summary>
-        /// Web
+        /// USER
         /// </summary>
-        [Description("Web")]
-        Web,
+        [Description("USER")]
+        USER,
         /// <summary>
-        /// Mobile
+        /// API
         /// </summary>
-        [Description("手机")]
-        Mobile,
-        /// <summary>
-        /// WeChat
-        /// </summary>
-        [Description("微信")]
-        WeChat
+        [Description("API")]
+        API
     }
 }

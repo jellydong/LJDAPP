@@ -85,7 +85,7 @@ namespace Ly.Admin.API.Controllers
                 {
                     new Claim(ClaimsName.AccountId,"1"),
                     new Claim(ClaimsName.AccountName,"jelly"),
-                    new Claim(ClaimsName.AccountType,"api"),
+                    new Claim(ClaimsName.AccountType,AccountTypeEnum.USER.ToString()),
                 };
                 var jwtmodel = _loginHandler.Hand(claims, Guid.NewGuid().ToString(), "jelly");
                 return jwtmodel;
@@ -144,14 +144,14 @@ namespace Ly.Admin.API.Controllers
         public async Task<ResponseResult> AuthInfo()
         {
             return await _userService.GetAuthInfo(_loginInfo.AccountId, _loginInfo.Platform);
-        } 
+        }
 
         [HttpGet("HelloWorld")]
         public string HelloWorld()
         {
             return _userService.HelloWorld();
         }
-        
+
 
         /// <summary>
         /// 登录处理
@@ -168,6 +168,8 @@ namespace Ly.Admin.API.Controllers
                 {
                     new Claim(ClaimsName.AccountId, account.Id.ToString()),
                     new Claim(ClaimsName.AccountName, account.RealName),
+                    new Claim(ClaimsName.AccountType, ((int)AccountTypeEnum.USER).ToString()),
+                    new Claim(ClaimsName.Platform,((int)loginInfo.Platform).ToString() ),
                     new Claim(ClaimsName.LoginTime, loginInfo.LoginTime.ToString())
                 };
                 var jwtmodel = _loginHandler.Hand(claims, loginInfo.RefreshToken, account.RealName);
