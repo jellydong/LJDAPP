@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Ly.Admin.Model;
+using Ly.Admin.Util;
+using Ly.Admin.Util.Enum;
 
 namespace Ly.Admin.Data.EF.Database
 {
@@ -20,17 +22,22 @@ namespace Ly.Admin.Data.EF.Database
             {
                 // todo:Only run this if using a real database
 
-                if (!lyAdminDbContext.Posts.Any())
+                if (!lyAdminDbContext.SysUser.Any())
                 {
-                    lyAdminDbContext.Posts.AddRange(
-                        new List<Post>
+                    lyAdminDbContext.SysUser.AddRange(
+                        new List<SysUser>
                         {
-                            new Post
+                            new SysUser
                             {
-                                Title = "Post Title 1",
-                                Body = "Post Body 1",
-                                Author = "Dave",
-                                CreatedTime = DateTime.Now
+                                UserName="admin",
+                                RealName="管理员",
+                                Password="admin".ToMD5String(),
+                                Gender=Gender.Male,
+                                Status=StatusEnum.Yes,
+                                SortId=1,
+                                DeleteFlag=StatusEnum.Yes,
+                                CreatedBy=0,
+                                CreatedTime=DateTime.Now
                             }
                         }
                     );

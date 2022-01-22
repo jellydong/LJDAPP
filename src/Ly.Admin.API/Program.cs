@@ -1,4 +1,5 @@
 using Autofac.Extensions.DependencyInjection;
+using Ly.Admin.Data.EF.Database;
 using Serilog;
 
 namespace Ly.Admin.API
@@ -32,7 +33,23 @@ namespace Ly.Admin.API
             #endregion
 
             var host = CreateHostBuilder(args).Build();
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 
+                try
+                {
+                    //程序一开始的时候初始化数据库的默认数据
+                    var myContext = services.GetRequiredService<LyAdminDbContext>();
+                    LyAdminDbContextSeed.SeedAsync(myContext, loggerFactory).Wait();
+                }
+                catch (Exception e)
+                {
+                    var logger = loggerFactory.CreateLogger<Program>();
+                    logger.LogError(e, "初始化数据失败");
+                }
+            }
             host.Run();
         }
 
