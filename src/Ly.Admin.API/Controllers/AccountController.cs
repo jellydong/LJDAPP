@@ -48,7 +48,7 @@ namespace Ly.Admin.API.Controllers
                             CurrentActiveMenu = "/dashboard",
                             Icon = "bx:bx-home"
                         }
-                    }, 
+                    },
                     new PermissionMenuResource
                     {
                         Path = "workbench",
@@ -63,16 +63,43 @@ namespace Ly.Admin.API.Controllers
                     }
                 }
             };
-
-
             permissionMenuResources.Add(dashboardRoute);
+
+            var helloWorldRoute = new PermissionMenuResource
+            {
+                Path = "/helloworld",
+                Name = "HelloWorld",
+                Component = "LAYOUT",
+                Redirect = "/helloworld/index",
+                Meta = new VueRouterMetaResource
+                {
+                    Title = "routes.dashboard.helloworld",
+                    Icon = "ant-design:windows-filled"
+                },
+                Children = new List<PermissionMenuResource>
+                {
+                    new PermissionMenuResource
+                    {
+                        Path = "index",
+                        Name = "HelloWorldPage",
+                        Component = "/sys/helloworld/index.vue",
+                        Meta = new VueRouterMetaResource
+                        {
+                            Title = "routes.dashboard.helloworld",
+                            CurrentActiveMenu = "/helloworld",
+                            Icon = "ant-design:windows-filled"
+                        }
+                    }
+                }
+            };
+            permissionMenuResources.Add(helloWorldRoute);
 
             return await Task.FromResult(new ResponseResult<List<PermissionMenuResource>>(ResultEnum.SUCCESS, permissionMenuResources));
         }
         [HttpGet("PermCode")]
         public async Task<ResponseResult> GetPermCode()
         {
-            return await Task.FromResult(new ResponseResult<List<string>>(true,new List<string> { "1000", "3000", "5000" }));
+            return await Task.FromResult(new ResponseResult<List<string>>(true, new List<string> { "1000", "3000", "5000" }));
         }
 
         [HttpGet("PermissionMenuPearAdmin")]
